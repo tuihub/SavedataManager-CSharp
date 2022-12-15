@@ -1,5 +1,5 @@
 ﻿using CommandLine;
-using SavedataManager_CSharp;
+using SavedataManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +12,9 @@ namespace SavedataManager
     {
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(Run)
+            Parser.Default.ParseArguments<StoreOptions, RestoreOptions>(args)
+                .WithParsed<StoreOptions>(RunStore)
+                .WithParsed<RestoreOptions>(RunRestore)
                 .WithNotParsed(HandleParseError);
         }
 
@@ -23,9 +24,14 @@ namespace SavedataManager
             if (errs.IsHelp()) return;
         }
 
-        private static void Run(Options opts)
+        private static void RunStore(StoreOptions opts)
         {
-            Console.WriteLine("run");
+            Console.WriteLine("run store");
+        }
+
+        private static void RunRestore(RestoreOptions obj)
+        {
+            Console.WriteLine("run restore");
         }
     }
 }
