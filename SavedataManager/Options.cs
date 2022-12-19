@@ -7,11 +7,13 @@ using CommandLine;
 
 namespace SavedataManager
 {
-    [Verb("store", isDefault: true, aliases: new string[] { "s" })]
+    [Verb("store", aliases: new string[] { "s" })]
     class StoreOptions
     {
-        [Option('d', "dir", Default = ".", HelpText = "App base folder path to store savedata.")]
+        [Option('d', "dir", Required = true, HelpText = "App base folder path to store savedata.")]
         public string DirPath { get; set; } = null!;
+        [Option('n', "name", Required = true, HelpText = "App name.")]
+        public string AppName { get; set; } = null!;
     }
 
     [Verb("restore", aliases: new string[] { "rs" })]

@@ -48,6 +48,8 @@ namespace SavedataManager
         private static void RunStore(StoreOptions opts)
         {
             Log.Info("RunStore", "Starting store");
+            string appName = opts.AppName;
+            Log.Debug("RunStore", $"appName = {appName}");
             string workDir = opts.DirPath;
             Log.Debug("RunStore", $"workDir = {workDir}");
             Log.Debug("RunStore", $"Setting CurrentDirectory to {workDir}");
@@ -84,7 +86,7 @@ namespace SavedataManager
             // must dispose
             zipArchive.Dispose();
             long curTimeMs = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            string zipFileName = "Savedata_" + curTimeMs.ToString() + ".zip";
+            string zipFileName = "Savedata_" + (appName.Length > 0 ? (appName + "_") : "") + curTimeMs.ToString() + ".zip";
             Log.Info("RunStore", $"Savedata filename: {zipFileName}");
             string zipFilePath = Path.Combine(Global.SavedataArchiveFolderPath, zipFileName);
             Log.Debug("RunStore", $"Savedata filepath = {zipFilePath}");
