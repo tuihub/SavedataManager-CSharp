@@ -4,11 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavedataManager", "SavedataManager\SavedataManager.csproj", "{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{7CCA3C7F-8A3B-42FF-97A4-55FEACA74098} = {7CCA3C7F-8A3B-42FF-97A4-55FEACA74098}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavedataManagerLib", "SavedataManagerLib\SavedataManagerLib.csproj", "{7CCA3C7F-8A3B-42FF-97A4-55FEACA74098}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +15,6 @@ Global
 		{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CCA3C7F-8A3B-42FF-97A4-55FEACA74098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CCA3C7F-8A3B-42FF-97A4-55FEACA74098}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CCA3C7F-8A3B-42FF-97A4-55FEACA74098}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CCA3C7F-8A3B-42FF-97A4-55FEACA74098}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
