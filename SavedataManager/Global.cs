@@ -14,5 +14,15 @@ namespace SavedataManager
         public static readonly string SavedataArchiveFolderName = "archives";
         public static readonly string SavedataArchiveFolderPath = ExecutionFolderPath + Path.AltDirectorySeparatorChar + SavedataArchiveFolderName;
         public static readonly string SavedataConfig = "savedata_manager_config.json";
+
+        public static LogLevel LogLevel = LogLevel.INFO;
+    }
+    public enum LogLevel
+    {
+        NONE = 0,
+        ERROR = 1,
+        WARN = 2,
+        INFO = 3,
+        DEBUG = 4,
     }
 }
