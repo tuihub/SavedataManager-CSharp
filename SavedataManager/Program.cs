@@ -50,6 +50,7 @@ namespace SavedataManager
             Log.Info("RunStore", "Starting store");
             string workDir = opts.DirPath;
             Log.Debug("RunStore", $"workDir = {workDir}");
+            Log.Debug("RunStore", $"Setting CurrentDirectory to {workDir}");
             Directory.SetCurrentDirectory(workDir);
             string configPath = Path.Combine(workDir, Global.SavedataConfigFileName);
             Log.Debug("RunStore", $"configPath = {configPath}");
@@ -72,7 +73,7 @@ namespace SavedataManager
             // add entries to zipArchive
             foreach (var entry in config.Entries)
             {
-                Log.Debug("RunStore/AddEntriesToZipActhive", entry.ToString());
+                Log.Debug("RunStore/AddEntriesToZipArchive", entry.ToString());
                 zipArchive.CreateEntryFromAny(entry.Path, entry.Id.ToString());
             }
 
@@ -88,11 +89,67 @@ namespace SavedataManager
             string zipFilePath = Path.Combine(Global.SavedataArchiveFolderPath, zipFileName);
             Log.Debug("RunStore", $"Savedata filepath = {zipFilePath}");
             FileHelper.Write(memoryStream, zipFilePath);
+            Log.Info("RunStore", "Store complete");
         }
 
         private static void RunRestore(RestoreOptions opts)
         {
             Log.Info("RunRestore", "Starting restore");
+
+            string savedataArchivePath = opts.FilePath;
+            Log.Debug("RunRestore", $"savedataArchivePath = {savedataArchivePath}");
+            using var zipArchive = ZipFile.Open(savedataArchivePath, ZipArchiveMode.Read);
+
+            string workDir = opts.DirPath;
+            Log.Debug("RunRestore", $"workDir = {workDir}");
+            Log.Debug("RunRestore", $"Setting CurrentDirectory to {workDir}");
+            Directory.SetCurrentDirectory(workDir);
+
+            var configEntry = zipArchive.GetEntry(Global.SavedataConfigFileName);
+            using var configEntryStreamReader = new StreamReader(configEntry.Open(), Encoding.UTF8);
+            string configStr = configEntryStreamReader.ReadToEnd();
+            Log.Debug("RunRestore", $"configStr = {configStr}");
+            var config = JsonSerializer.Deserialize<SavedataManagerConfig>(configStr);
+            Log.Debug("RunRestore", "Starting config deserialization");
+            if (config == null)
+            {
+                Log.Error("RunStore", "config is null");
+                return;
+            }
+            Log.Debug("RunRestore", "Config deserialization finished");
+
+            // extract entries from zipArchive
+            foreach (var entry in config.Entries)
+            {
+                var extractPath = Path.GetDirectoryName(entry.Path);
+                Log.Debug("RunRestore/ExtractFromZipArchive", $"extractPath = {extractPath}");
+                var zipArchiveBaseDirName = entry.Id.ToString();
+                var zipArchiveEntriesFiltered = from zipArchiveEntry in zipArchive.Entries
+                                                where Path.GetDirectoryName(zipArchiveEntry.FullName).StartsWith(zipArchiveBaseDirName)
+                                                where String.IsNullOrEmpty(zipArchiveEntry.Name) == false
+                                                select zipArchiveEntry;
+                // from https://stackoverflow.com/questions/36350199/c-sharp-extract-specific-directory-from-zip-preserving-folder-structure
+                foreach (var zipArchiveEntry in zipArchiveEntriesFiltered)
+                {
+                    var name = zipArchiveEntry.FullName.Substring(zipArchiveBaseDirName.Length + 1);
+                    Log.Debug("RunRestore/ExtractFromZipArchive", $"zipArchiveEntry.name = {name}");
+                    string path = Path.Combine(extractPath, name);
+                    Log.Debug("RunRestore/ExtractFromZipArchive", $"zipArchiveEntry.path = {path}");
+                    if (Directory.Exists(path) == false)
+                    {
+                        Log.Debug("RunRestore/ExtractFromZipArchive", $"Creating dir: {Path.GetDirectoryName(path)}");
+                        Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    }
+                    zipArchiveEntry.ExtractToFile(path, true);
+                }
+            }
+
+            // extract config
+            var extractConfigPath = Path.Combine(workDir, Global.SavedataConfigFileName);
+            Log.Debug("RunRestore", $"extractConfigPath = {extractConfigPath}");
+            Log.Debug("RunRestore", "Extracting SavedataConfigFile from zipArchive");
+            zipArchive.GetEntry(Global.SavedataConfigFileName).ExtractToFile(extractConfigPath, true);
+            Log.Info("RunRestore", "Restore complete");
         }
     }
 }
