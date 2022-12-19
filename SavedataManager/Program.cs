@@ -52,7 +52,7 @@ namespace SavedataManager
             Log.Debug("RunStore", $"workDir = {workDir}");
             Log.Debug("RunStore", $"Setting CurrentDirectory to {workDir}");
             Directory.SetCurrentDirectory(workDir);
-            string configPath = Path.Combine(workDir, Global.SavedataConfigFileName);
+            string configPath = Path.Combine(Environment.CurrentDirectory, Global.SavedataConfigFileName);
             Log.Debug("RunStore", $"configPath = {configPath}");
             string configStr = File.ReadAllText(configPath, Encoding.UTF8);
             Log.Debug("RunStore", $"configStr = {configStr}");
@@ -145,7 +145,7 @@ namespace SavedataManager
             }
 
             // extract config
-            var extractConfigPath = Path.Combine(workDir, Global.SavedataConfigFileName);
+            var extractConfigPath = Path.Combine(Environment.CurrentDirectory, Global.SavedataConfigFileName);
             Log.Debug("RunRestore", $"extractConfigPath = {extractConfigPath}");
             Log.Debug("RunRestore", "Extracting SavedataConfigFile from zipArchive");
             zipArchive.GetEntry(Global.SavedataConfigFileName).ExtractToFile(extractConfigPath, true);
