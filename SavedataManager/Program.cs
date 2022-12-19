@@ -35,12 +35,16 @@ namespace SavedataManager
 
         private static void RunStore(StoreOptions opts)
         {
-            Log.Debug("RunStore", "Starting store");
+            Log.Info("RunStore", "Starting store");
+            string workDir = opts.DirPath;
+            Log.Debug("RunStore", $"workDir = {workDir}");
+            string savedataManagerConfigPath = Path.Combine(workDir, Global.SavedataConfigFileName);
+            Log.Debug("RunStore", $"savedataManagerConfigPath = {savedataManagerConfigPath}");
         }
 
         private static void RunRestore(RestoreOptions opts)
         {
-            Log.Debug("RunRestore", "Starting restore");
+            Log.Info("RunRestore", "Starting restore");
         }
     }
 }
