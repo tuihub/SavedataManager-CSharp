@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using SavedataManager;
+using SavedataManager.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +21,26 @@ namespace SavedataManager
 
         private static void HandleParseError(IEnumerable<Error> errs)
         {
-            if (errs.IsVersion()) return;
-            if (errs.IsHelp()) return;
+            if (errs.IsVersion())
+            {
+                Log.Debug("HandleParseError", "Running version");
+                return;
+            }
+            if (errs.IsHelp())
+            {
+                Log.Debug("HandleParseError", "Running version");
+                return;
+            }
         }
 
         private static void RunStore(StoreOptions opts)
         {
-            Console.WriteLine("run store");
+            Log.Debug("RunStore", "Starting store");
         }
 
-        private static void RunRestore(RestoreOptions obj)
+        private static void RunRestore(RestoreOptions opts)
         {
-            Console.WriteLine("run restore");
+            Log.Debug("RunRestore", "Starting restore");
         }
     }
 }
