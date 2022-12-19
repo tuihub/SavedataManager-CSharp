@@ -101,11 +101,13 @@ namespace SavedataManager
             string savedataArchivePath = opts.FilePath;
             Log.Debug("RunRestore", $"savedataArchivePath = {savedataArchivePath}");
             using var zipArchive = ZipFile.Open(savedataArchivePath, ZipArchiveMode.Read);
-
             string workDir = opts.DirPath;
             Log.Debug("RunRestore", $"workDir = {workDir}");
             Log.Debug("RunRestore", $"Setting CurrentDirectory to {workDir}");
             Directory.SetCurrentDirectory(workDir);
+            var deleteFolderContent = opts.Delete;
+            Log.Debug("RunRestore", $"deleteFolderContent = {deleteFolderContent}");
+            var deletedFolder = new HashSet<string>();
 
             var configEntry = zipArchive.GetEntry(Global.SavedataConfigFileName);
             using var configEntryStreamReader = new StreamReader(configEntry.Open(), Encoding.UTF8);
@@ -130,6 +132,37 @@ namespace SavedataManager
                                                 where Path.GetDirectoryName(zipArchiveEntry.FullName).StartsWith(zipArchiveBaseDirName)
                                                 where String.IsNullOrEmpty(zipArchiveEntry.Name) == false
                                                 select zipArchiveEntry;
+                if (deleteFolderContent && entry.Type == EntryType.Folder)
+                {
+                    if (zipArchiveEntriesFiltered.Count() == 0)
+                    {
+                        Log.Warn("RunRestore/ExtractFromZipArchive.DeleteFolderContent", $"Empty dir in entry: {entry}");
+                    }
+                    else
+                    {
+                        var e = zipArchiveEntriesFiltered.First();
+                        var folder = FolderHelper.GetRootFolder(e.FullName.Substring(zipArchiveBaseDirName.Length + 1));
+                        var path = Path.Combine(extractPath, folder);
+                        if (deletedFolder.Contains(path))
+                        {
+                            Log.Debug("RunRestore/ExtractFromZipArchive.DeleteFolderContent", $"Dir {path} have been deleted");
+                        }
+                        else
+                        {
+                            deletedFolder.Add(path);
+                            if (Directory.Exists(path) == false)
+                            {
+                                Log.Debug("RunRestore/ExtractFromZipArchive.DeleteFolderContent", $"Dir {path} not exists");
+                            }
+                            else
+                            {
+                                Log.Warn("RunRestore/ExtractFromZipArchive.DeleteFolderContent", $"Deleting dir: {path}");
+                                Directory.Delete(path, true);
+                                Directory.CreateDirectory(path);
+                            }
+                        }
+                    }
+                }
                 // from https://stackoverflow.com/questions/36350199/c-sharp-extract-specific-directory-from-zip-preserving-folder-structure
                 foreach (var zipArchiveEntry in zipArchiveEntriesFiltered)
                 {
