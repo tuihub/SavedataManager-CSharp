@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SavedataManager.Utils
 {
-    static internal class FileHelper
+    public static class FileHelper
     {
         public static void Write(MemoryStream memoryStream, string path)
         {

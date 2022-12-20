@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SavedataManager.Utils
 {
-    internal static class Log
+    public static class Log
     {
         static void WriteFgColorWithTime(ConsoleColor fgColor, string logLevel)
         {
