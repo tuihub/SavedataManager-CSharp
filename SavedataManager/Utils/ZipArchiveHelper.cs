@@ -37,6 +37,8 @@ namespace SavedataManager.Utils
             var lastWriteTime = archive.Entries.First().LastWriteTime;
             foreach (var entry in archive.Entries)
             {
+                if (entry.FullName == Global.SavedataConfigFileName)
+                    continue;
                 if (entry.LastWriteTime > lastWriteTime)
                     lastWriteTime = entry.LastWriteTime;
             }
