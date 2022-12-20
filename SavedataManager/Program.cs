@@ -123,6 +123,55 @@ namespace SavedataManager
             }
             Log.Debug("RunRestore", "Config deserialization finished");
 
+            // compare LastWriteTime
+            var zipArchiveEntriesMaxLastWriteTime = zipArchive.GetEntriesMaxLastWriteTime();
+            DateTime? fsMaxLastWriteTime = null;
+            foreach (var entry in config.Entries)
+            {
+                Log.Debug("RunRestore/LastWriteTime", $"{entry}");
+                if (entry.Type == EntryType.File)
+                {
+                    Log.Debug("RunRestore/LastWriteTime", $"Checking file: {entry.GetRealPath()}");
+                    var curFileLastWriteTime = File.GetLastWriteTime(entry.GetRealPath());
+                    Log.Debug("RunRestore/LastWriteTime", $"curFileLastWriteTime = {curFileLastWriteTime}");
+                    Log.Debug("RunRestore/LastWriteTime", $"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
+                    if (fsMaxLastWriteTime == null || curFileLastWriteTime > fsMaxLastWriteTime)
+                    {
+                        Log.Debug("RunRestore/LastWriteTime", $"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
+                        fsMaxLastWriteTime = curFileLastWriteTime;
+                    }
+                }
+                else if (entry.Type == EntryType.Folder)
+                {
+                    var files = Directory.GetFiles(entry.GetRealPath(), "*", SearchOption.AllDirectories);
+                    foreach (var file in files)
+                    {
+                        Log.Debug("RunRestore/LastWriteTime", $"Checking file: {file}");
+                        var curFileLastWriteTime = File.GetLastWriteTime(file);
+                        Log.Debug("RunRestore/LastWriteTime", $"curFileLastWriteTime = {curFileLastWriteTime}");
+                        Log.Debug("RunRestore/LastWriteTime", $"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
+                        if (fsMaxLastWriteTime == null || curFileLastWriteTime > fsMaxLastWriteTime)
+                        {
+                            Log.Debug("RunRestore/LastWriteTime", $"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
+                            fsMaxLastWriteTime = curFileLastWriteTime;
+                        }
+                    }
+                }
+            }
+            // current savedata is newer
+            if (fsMaxLastWriteTime != null && fsMaxLastWriteTime > zipArchiveEntriesMaxLastWriteTime)
+            {
+                Console.WriteLine("Current App savedata is newer than the one to restore, overwrite(Y/N): ");
+                var overWrite = UserInput.ReadLineYN();
+                if (overWrite == false)
+                {
+                    Log.Warn("RunRestore/LastWriteTime", "User abort, exiting");
+                    Environment.Exit(0);
+                }
+                Log.Warn("RunRestore/LastWriteTime", "User approved, force overwrite app savedata");
+            }
+            Log.Debug("RunRestore/LastWriteTime", "Current App savedata is older than the one to restore, overwrite");
+
             // extract entries from zipArchive
             foreach (var entry in config.Entries)
             {

@@ -31,5 +31,16 @@ namespace SavedataManager.Utils
                 archive.CreateEntryFromAny(file, entryName);
             }
         }
+
+        public static DateTime GetEntriesMaxLastWriteTime(this ZipArchive archive)
+        {
+            var lastWriteTime = archive.Entries.First().LastWriteTime;
+            foreach (var entry in archive.Entries)
+            {
+                if (entry.LastWriteTime > lastWriteTime)
+                    lastWriteTime = entry.LastWriteTime;
+            }
+            return DateTimeOffsetHelper.ConvertFromDateTimeOffset(lastWriteTime);
+        }
     }
 }
