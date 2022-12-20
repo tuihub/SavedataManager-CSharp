@@ -125,6 +125,7 @@ namespace SavedataManager
 
             // compare LastWriteTime
             var zipArchiveEntriesMaxLastWriteTime = zipArchive.GetEntriesMaxLastWriteTime();
+            Log.Debug("RunRestore/LastWriteTime", $"zipArchiveEntriesMaxLastWriteTime = {zipArchiveEntriesMaxLastWriteTime}");
             DateTime? fsMaxLastWriteTime = null;
             foreach (var entry in config.Entries)
             {
@@ -143,6 +144,11 @@ namespace SavedataManager
                 }
                 else if (entry.Type == EntryType.Folder)
                 {
+                    if (Directory.Exists(entry.GetRealPath()) == false)
+                    {
+                        Log.Debug("RunRestore/LastWriteTime", $"dir {entry.GetRealPath()} not exists, skip");
+                        continue;
+                    }
                     var files = Directory.GetFiles(entry.GetRealPath(), "*", SearchOption.AllDirectories);
                     foreach (var file in files)
                     {
