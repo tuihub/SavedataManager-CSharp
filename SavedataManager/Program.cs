@@ -170,7 +170,7 @@ namespace SavedataManager
                 }
                 Log.Warn("RunRestore/LastWriteTime", "User approved, force overwrite app savedata");
             }
-            Log.Debug("RunRestore/LastWriteTime", "Current App savedata is older than the one to restore, overwrite");
+            Log.Debug("RunRestore/LastWriteTime", "Current App savedata is not newer than the one to restore, overwrite");
 
             // extract entries from zipArchive
             foreach (var entry in config.Entries)
