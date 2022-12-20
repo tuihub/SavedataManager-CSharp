@@ -11,7 +11,7 @@ namespace SavedataManager.Utils
         public static bool ReadLineYN()
         {
             string? str = Console.ReadLine();
-            while (str == null || new List<string> { "Y", "y", "Yes", "yes", "N", "n", "No", "no" }.Contains(str))
+            while (str == null || new List<string> { "Y", "y", "Yes", "yes", "N", "n", "No", "no" }.Contains(str) == false)
             {
                 Console.Write($"Input incorrect, please re-enter(Y/N): ");
                 str = Console.ReadLine();

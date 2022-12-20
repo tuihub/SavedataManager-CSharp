@@ -167,7 +167,7 @@ namespace SavedataManager
             // current savedata is newer
             if (fsMaxLastWriteTime != null && fsMaxLastWriteTime > zipArchiveEntriesMaxLastWriteTime)
             {
-                Console.WriteLine("Current App savedata is newer than the one to restore, overwrite(Y/N): ");
+                Console.Write("Current App savedata is newer than the one to restore, overwrite(Y/N): ");
                 var overWrite = UserInput.ReadLineYN();
                 if (overWrite == false)
                 {
