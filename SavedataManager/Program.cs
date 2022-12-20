@@ -221,7 +221,7 @@ namespace SavedataManager
                     Log.Debug("RunRestore/ExtractFromZipArchive", $"zipArchiveEntry.name = {name}");
                     string path = Path.Combine(extractPath, name);
                     Log.Debug("RunRestore/ExtractFromZipArchive", $"zipArchiveEntry.path = {path}");
-                    if (Directory.Exists(path) == false)
+                    if (Directory.Exists(Path.GetDirectoryName(path)) == false)
                     {
                         Log.Debug("RunRestore/ExtractFromZipArchive", $"Creating dir: {Path.GetDirectoryName(path)}");
                         Directory.CreateDirectory(Path.GetDirectoryName(path));
