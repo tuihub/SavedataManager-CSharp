@@ -19,6 +19,13 @@ namespace SavedataManager.Models
         public string Path { get; set; } = null!;
         public string OriginalName { get; set; } = null!;
 
+        public string GetRealPath()
+        {
+            string realPath = Path;
+            if (Path.Contains("{USER_DOCUMENT}"))
+                realPath = realPath.Replace("{USER_DOCUMENT}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            return realPath;
+        }
         public override string ToString()
         {
             return $"SavedataManagerConfig Entry {{ Id = {Id}, Type = {Type}, Path = {Path}, OriginalName = {OriginalName} }}";

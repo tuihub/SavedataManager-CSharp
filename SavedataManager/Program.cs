@@ -76,7 +76,8 @@ namespace SavedataManager
             foreach (var entry in config.Entries)
             {
                 Log.Debug("RunStore/AddEntriesToZipArchive", entry.ToString());
-                zipArchive.CreateEntryFromAny(entry.Path, entry.Id.ToString());
+                Log.Debug("RunStore/AddEntriesToZipArchive", $"entry.GetRealPath() = {entry.GetRealPath()}");
+                zipArchive.CreateEntryFromAny(entry.GetRealPath(), entry.Id.ToString());
             }
 
             // add config.json
@@ -125,7 +126,8 @@ namespace SavedataManager
             // extract entries from zipArchive
             foreach (var entry in config.Entries)
             {
-                var extractPath = Path.GetDirectoryName(entry.Path);
+                var extractPath = Path.GetDirectoryName(entry.GetRealPath());
+                Log.Debug("RunRestore/ExtractFromZipArchive", $"entry.GetRealPath() = {entry.GetRealPath()}");
                 Log.Debug("RunRestore/ExtractFromZipArchive", $"extractPath = {extractPath}");
                 var zipArchiveBaseDirName = entry.Id.ToString();
                 var zipArchiveEntriesFiltered = from zipArchiveEntry in zipArchive.Entries
