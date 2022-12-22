@@ -16,6 +16,8 @@ namespace SavedataManager
         public static readonly string ExecutionFolderPath = Path.GetDirectoryName(ExecutionPath);
         public static readonly string SavedataArchiveFolderName = ConfigurationManager.AppSettings["savedataArchiveFolderName"] ?? "archives";
         public static readonly string SavedataArchiveFolderPath = ConfigurationManager.AppSettings["savedataArchiveFolderPath"] ?? Path.Combine(ExecutionFolderPath, SavedataArchiveFolderName);
+        public static readonly string SavedataArchiveName = ConfigurationManager.AppSettings["savedataArchiveName"] ?? "Savedata_{NAME}_{TIME}.zip";
+        public static readonly string SavedataArchiveNameTimeFormat = ConfigurationManager.AppSettings["savedataArchiveNameTimeFormat"] ?? "yyyyMMddHHmmssffffff";
         public static readonly string SavedataConfigFileName = ConfigurationManager.AppSettings["savedataConfigFileName"] ?? "savedata_manager_config.json";
     }
     public enum LogLevel

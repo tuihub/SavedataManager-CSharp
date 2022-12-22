@@ -87,12 +87,22 @@ namespace SavedataManager
             // must dispose
             zipArchive.Dispose();
             long curTimeMs = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            string zipFileName = "Savedata_" + (appName.Length > 0 ? (appName + "_") : "") + curTimeMs.ToString() + ".zip";
+            string zipFileName = GenerateStoreZipFileName(appName);
             Log.Info("RunStore", $"Savedata filename: {zipFileName}");
             string zipFilePath = Path.Combine(Global.SavedataArchiveFolderPath, zipFileName);
             Log.Debug("RunStore", $"Savedata filepath = {zipFilePath}");
             FileHelper.Write(memoryStream, zipFilePath);
             Log.Info("RunStore", "Store complete");
+        }
+
+        private static string GenerateStoreZipFileName(string appName)
+        {
+            string fileName = Global.SavedataArchiveName;
+            if (fileName.Contains("{NAME}"))
+                fileName = fileName.Replace("{NAME}", appName);
+            if (fileName.Contains("{TIME}"))
+                fileName = fileName.Replace("{TIME}", DateTime.Now.ToString(Global.SavedataArchiveNameTimeFormat));
+            return fileName;
         }
 
         private static void RunRestore(RestoreOptions opts)
