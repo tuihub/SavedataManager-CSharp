@@ -24,6 +24,10 @@ namespace SavedataManager.Models
             string realPath = Path;
             if (Path.Contains("{USER_DOCUMENT}"))
                 realPath = realPath.Replace("{USER_DOCUMENT}", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            if (Path.Contains("{USER_PROFILE}"))
+                realPath = realPath.Replace("{USER_PROFILE}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+            if (Path.Contains("{USER_SAVED_GAMES}"))
+                realPath = realPath.Replace("{USER_SAVED_GAMES}", System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games"));
             return realPath;
         }
         public override string ToString()
