@@ -40,7 +40,7 @@ namespace SavedataManager
             }
             if (errs.IsHelp())
             {
-                Log.Debug("HandleParseError", "Running version");
+                Log.Debug("HandleParseError", "Running help");
                 return;
             }
         }
