@@ -21,6 +21,19 @@ namespace TuiHub.SavedataManager.Models
         public string Id { get; set; } = String.Empty;
         public PathMode PathMode { get; set; }
         public string Path { get; set; } = String.Empty;
+
+        public string GetRealPath()
+        {
+            if (PathMode == PathMode.Document)
+                return System.IO.Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Path);
+            else if (PathMode == PathMode.Profile)
+                return System.IO.Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    Path);
+            else return Path;
+        }
     }
     public enum PathMode
     {

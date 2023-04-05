@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace TuiHub.SavedataManager
 {
@@ -16,5 +17,10 @@ namespace TuiHub.SavedataManager
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
             }
         };
+        private readonly ILogger _logger;
+        public SavedataManager(ILogger logger)
+        {
+            _logger = logger;
+        }
     }
 }
