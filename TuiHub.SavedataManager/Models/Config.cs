@@ -34,6 +34,18 @@ namespace TuiHub.SavedataManager.Models
                     Path);
             else return Path;
         }
+
+        public EntryFSType GetFSType()
+        {
+            if (Path.EndsWith('/') || Path.EndsWith('\\'))
+                return EntryFSType.Folder;
+            else return EntryFSType.File;
+        }
+
+        public override string ToString()
+        {
+            return $"Config Entry {{ Id = {Id}, PathMode = {PathMode} Path = {Path} }}";
+        }
     }
     public enum PathMode
     {
@@ -41,5 +53,10 @@ namespace TuiHub.SavedataManager.Models
         Game,
         Document,
         Profile
+    }
+    public enum EntryFSType
+    {
+        File,
+        Folder
     }
 }
