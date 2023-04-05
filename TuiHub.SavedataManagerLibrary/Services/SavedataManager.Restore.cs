@@ -46,7 +46,7 @@ namespace TuiHub.SavedataManagerLibrary
             _log.Debug("Config deserialization finished");
 
             _log.Debug("Checking fs and archive last write time");
-            bool fsLastWriteTimeNewer = CheckFSLastWriteTimeNewer(config, zipArchive);
+            bool fsLastWriteTimeNewer = InnerCheckFSLastWriteTimeNewer(config, zipArchive);
             if (fsLastWriteTimeNewer == true)
             {
                 _log.Debug($"forceOverwrite = {forceOverwrite}");

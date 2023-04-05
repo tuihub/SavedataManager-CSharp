@@ -1,5 +1,4 @@
 ﻿using log4net;
-using TuiHub.SavedataManagerLibrary.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,12 +8,36 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TuiHub.SavedataManagerLibrary.Models;
+using TuiHub.SavedataManagerLibrary.Utils;
 
 namespace TuiHub.SavedataManagerLibrary
 {
     public partial class SavedataManager
     {
-        public bool CheckFSLastWriteTimeNewer(Config config, ZipArchive zipArchive)
+        private bool CheckFSLastWriteTimeNewer(ZipArchive zipArchive)
+        {
+            var configEntry = zipArchive.GetEntry(s_savedataConfigFileName);
+            if (configEntry == null)
+            {
+                _log.Error("configEntry is null");
+                return false;
+            }
+            using var configEntryStreamReader = new StreamReader(configEntry.Open(), Encoding.UTF8);
+            string configStr = configEntryStreamReader.ReadToEnd();
+            _log.Debug($"configStr = {configStr}");
+            var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
+            _log.Debug("Starting config deserialization");
+            if (config == null)
+            {
+                _log.Error("config is null");
+                return false;
+            }
+            _log.Debug("Config deserialization finished");
+
+            return InnerCheckFSLastWriteTimeNewer(config, zipArchive);
+        }
+
+        private bool InnerCheckFSLastWriteTimeNewer(Config config, ZipArchive zipArchive)
         {
             // compare LastWriteTime
             var zipArchiveEntriesMaxLastWriteTime = zipArchive.GetEntriesMaxLastWriteTime(s_savedataConfigFileName);
