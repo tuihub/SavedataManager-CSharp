@@ -9,7 +9,7 @@ namespace SavedataManager.Utils
     public static class FolderHelper
     {
         // from https://stackoverflow.com/questions/7911448/c-get-first-directory-name-of-a-relative-path
-        public static string GetRootFolder(string path)
+        public static string? GetRootFolder(string? path)
         {
             var root = Path.GetPathRoot(path);
             while (true)

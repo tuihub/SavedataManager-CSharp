@@ -77,7 +77,8 @@ namespace TuiHub.SavedataManager
                     _logger.LogDebug("extractPath = {ExtractPath}", extractPath);
                     var zipArchiveBaseDirName = entry.Id.ToString();
                     var zipArchiveEntriesFiltered = from zipArchiveEntry in zipArchive.Entries
-                                                    where Path.GetDirectoryName(zipArchiveEntry.FullName).StartsWith(zipArchiveBaseDirName)
+                                                    let entryDirName = Path.GetDirectoryName(zipArchiveEntry.FullName)
+                                                    where entryDirName.StartsWith(zipArchiveBaseDirName)
                                                     where String.IsNullOrEmpty(zipArchiveEntry.Name) == false
                                                     select zipArchiveEntry;
                     if (entry.GetFSType() == EntryFSType.Folder)
@@ -90,6 +91,11 @@ namespace TuiHub.SavedataManager
                         {
                             var e = zipArchiveEntriesFiltered.First();
                             var folder = FolderHelper.GetRootFolder(e.FullName.Substring(zipArchiveBaseDirName.Length + 1));
+                            if (folder == null)
+                            {
+                                _logger.LogError("zipArchiveBaseDirName.GetRootFolder() is null");
+                                return false;
+                            }
                             var path = Path.Combine(extractPath, folder);
                             if (deletedFolder.Contains(path))
                             {
@@ -118,10 +124,17 @@ namespace TuiHub.SavedataManager
                         _logger.LogDebug("zipArchiveEntry.name = {Name}", name);
                         string path = Path.Combine(extractPath, name);
                         _logger.LogDebug("zipArchiveEntry.path = {Path}", path);
-                        if (Directory.Exists(Path.GetDirectoryName(path)) == false)
+                        var pathDirName = Path.GetDirectoryName(path);
+                        _logger.LogDebug("pathDirName = {PathDirName}", pathDirName);
+                        if (pathDirName == null)
                         {
-                            _logger.LogDebug("Creating dir: {PathDirectoryName}", Path.GetDirectoryName(path));
-                            Directory.CreateDirectory(Path.GetDirectoryName(path));
+                            _logger.LogError("pathDirName is null");
+                            return false;
+                        }
+                        if (Directory.Exists(pathDirName) == false)
+                        {
+                            _logger.LogDebug("Creating dir: {PathDirectoryName}", pathDirName);
+                            Directory.CreateDirectory(pathDirName);
                         }
                         zipArchiveEntry.ExtractToFile(path, true);
                     }
