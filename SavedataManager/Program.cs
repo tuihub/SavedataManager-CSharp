@@ -1,22 +1,21 @@
 ﻿using CommandLine;
 using log4net;
-using log4net.Core;
-using SavedataManager;
 using SavedataManager.Utils;
-using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace SavedataManager
 {
     class Program
     {
+        // https://www.c-sharpcorner.com/article/log4net-and-net-core/
         private readonly ILog _log = LogManager.GetLogger(typeof(Program));
-        void Main(string[] args)
+        private readonly TuiHub.SavedataManagerLibrary.SavedataManager _manager = new (LogManager.GetLogger(typeof(TuiHub.SavedataManagerLibrary.SavedataManager)));
+        static void Main(string[] args)
+        {
+            var program = new Program();
+            program.Run(args);
+        }
+        public void Run(string[] args)
         {
             try
             {
@@ -28,8 +27,8 @@ namespace SavedataManager
             }
             catch (Exception e)
             {
-                _log.Error($"{e.Message}");
-                _log.Debug($"{e.StackTrace}");
+                _log.Fatal($"{e.Message}", e);
+                //_log.Debug($"{e.StackTrace}");
             }
         }
 
@@ -47,9 +46,21 @@ namespace SavedataManager
             }
         }
 
-        private static void RunStore(StoreOptions opts)
+        private void RunStore(StoreOptions opts)
         {
-            
+            var appName = opts.AppName;
+            var memoryStream = _manager.Store(opts.DirPath);
+            if (memoryStream == null)
+            {
+                _log.Error("memoryStream is null");
+                return;
+            }
+            string zipFileName = GenerateStoreZipFileName(appName);
+            _log.Info($"Savedata filename: {zipFileName}");
+            string zipFilePath = Path.Combine(Global.SavedataArchiveFolderPath, zipFileName);
+            _log.Debug($"Savedata filepath = {zipFilePath}");
+            FileHelper.Write(memoryStream, zipFilePath);
+            _log.Info("Store complete");
         }
 
         private static string GenerateStoreZipFileName(string appName)
@@ -64,8 +75,11 @@ namespace SavedataManager
 
         private void RunRestore(RestoreOptions opts)
         {
+            var archivePath = opts.FilePath;
+            var gameDirPath = opts.DirPath;
+            var forceOverwrite = opts.Overwrite;
             // current savedata is newer
-            if (fsMaxLastWriteTime != null && fsMaxLastWriteTime > zipArchiveEntriesMaxLastWriteTime)
+            if (forceOverwrite == false && _manager.CheckFSLastWriteTimeNewer(archivePath) == true)
             {
                 Console.Write("Current App savedata is newer than the one to restore, overwrite(Y/N): ");
                 var overWrite = UserInput.ReadLineYN();
@@ -77,6 +91,7 @@ namespace SavedataManager
                 _log.Warn("User approved, force overwrite app savedata");
             }
             _log.Debug("Current App savedata is not newer than the one to restore, overwrite");
+            _manager.Restore(archivePath, gameDirPath);
         }
     }
 }
