@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SavedataManager.Utils
+namespace TuiHub.SavedataManagerLibrary.Utils
 {
     // from https://stackoverflow.com/questions/15133626/creating-directories-in-a-ziparchive-c-sharp-net-4-5
     public static class ZipArchiveHelper

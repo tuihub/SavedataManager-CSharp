@@ -1,4 +1,4 @@
-﻿using SavedataManager.Utils;
+﻿using TuiHub.SavedataManagerLibrary.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using TuiHub.SavedataManager.Models;
+using TuiHub.SavedataManagerLibrary.Models;
 
-namespace TuiHub.SavedataManager
+namespace TuiHub.SavedataManagerLibrary
 {
     public partial class SavedataManager
     {

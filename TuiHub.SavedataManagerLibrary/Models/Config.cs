@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TuiHub.SavedataManager.Models
+namespace TuiHub.SavedataManagerLibrary.Models
 {
     public class Config
     {

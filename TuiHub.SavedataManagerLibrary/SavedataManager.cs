@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TuiHub.SavedataManager
+namespace TuiHub.SavedataManagerLibrary
 {
     public partial class SavedataManager
     {
