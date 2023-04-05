@@ -23,7 +23,5 @@ namespace SavedataManager
         public string FilePath { get; set; } = null!;
         [Option('d', "dir", Required = true, HelpText = "App base folder path to restore savedata.")]
         public string DirPath { get; set; } = null!;
-        [Option("delete", Default = false, HelpText = "Delete folder content when restoring folder.")]
-        public bool Delete { get; set; }
     }
 }
