@@ -14,8 +14,11 @@ namespace TuiHub.SavedataManagerLibrary
 {
     public partial class SavedataManager
     {
-        private bool CheckFSLastWriteTimeNewer(ZipArchive zipArchive)
+        public bool CheckFSLastWriteTimeNewer(string archivePath)
         {
+            string savedataArchivePath = archivePath;
+            _log.Debug($"savedataArchivePath = {savedataArchivePath}");
+            using var zipArchive = ZipFile.Open(savedataArchivePath, ZipArchiveMode.Read);
             var configEntry = zipArchive.GetEntry(s_savedataConfigFileName);
             if (configEntry == null)
             {
