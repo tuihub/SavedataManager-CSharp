@@ -1,5 +1,4 @@
 ﻿using log4net;
-using Microsoft.Extensions.Logging;
 using SavedataManager.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,24 +18,24 @@ namespace TuiHub.SavedataManager
         {
             // compare LastWriteTime
             var zipArchiveEntriesMaxLastWriteTime = zipArchive.GetEntriesMaxLastWriteTime(s_savedataConfigFileName);
-            _logger.LogDebug("zipArchiveEntriesMaxLastWriteTime = {ZipArchiveEntriesMaxLastWriteTime}", zipArchiveEntriesMaxLastWriteTime);
+            _log.Debug($"zipArchiveEntriesMaxLastWriteTime = {zipArchiveEntriesMaxLastWriteTime}");
             DateTime? fsMaxLastWriteTime = null;
 
             if (config.Entries == null)
-                _logger.LogWarning("config.Entries is null");
+                _log.Warn("config.Entries is null");
             else
                 foreach (var entry in config.Entries)
                 {
-                    _logger.LogDebug("Entry {Entry}", entry.ToString());
+                    _log.Debug($"{entry.ToString()}");
                     if (entry.GetFSType() == EntryFSType.File)
                     {
-                        _logger.LogDebug("Checking file: {EntryRealPath}", entry.GetRealPath());
+                        _log.Debug($"Checking file: {entry.GetRealPath()}");
                         var curFileLastWriteTime = File.GetLastWriteTime(entry.GetRealPath());
-                        _logger.LogDebug("curFileLastWriteTime = {CurFileLastWriteTime}", curFileLastWriteTime);
-                        _logger.LogDebug("fsMaxLastWriteTime = {fsMaxLastWriteTime}", fsMaxLastWriteTime);
+                        _log.Debug($"curFileLastWriteTime = {curFileLastWriteTime}");
+                        _log.Debug($"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
                         if (fsMaxLastWriteTime == null || curFileLastWriteTime > fsMaxLastWriteTime)
                         {
-                            _logger.LogDebug("Updating fsMaxLastWriteTime = {CurFileLastWriteTime}", curFileLastWriteTime);
+                            _log.Debug($"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
                             fsMaxLastWriteTime = curFileLastWriteTime;
                         }
                     }
@@ -44,19 +43,19 @@ namespace TuiHub.SavedataManager
                     {
                         if (Directory.Exists(entry.GetRealPath()) == false)
                         {
-                            _logger.LogDebug("dir {EntryRealPath} not exists, skip", entry.GetRealPath());
+                            _log.Debug($"Dir {entry.GetRealPath()} not exists, skip");
                             continue;
                         }
                         var files = Directory.GetFiles(entry.GetRealPath(), "*", SearchOption.AllDirectories);
                         foreach (var file in files)
                         {
-                            _logger.LogDebug("Checking file: {File}", file);
+                            _log.Debug($"Checking file: {file}");
                             var curFileLastWriteTime = File.GetLastWriteTime(file);
-                            _logger.LogDebug("curFileLastWriteTime = {CurFileLastWriteTime}", curFileLastWriteTime);
-                            _logger.LogDebug("fsMaxLastWriteTime = {fsMaxLastWriteTime}", fsMaxLastWriteTime);
+                            _log.Debug($"curFileLastWriteTime = {curFileLastWriteTime}");
+                            _log.Debug($"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
                             if (fsMaxLastWriteTime == null || curFileLastWriteTime > fsMaxLastWriteTime)
                             {
-                                _logger.LogDebug("Updating fsMaxLastWriteTime = {CurFileLastWriteTime}", curFileLastWriteTime);
+                                _log.Debug($"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
                                 fsMaxLastWriteTime = curFileLastWriteTime;
                             }
                         }
@@ -66,12 +65,12 @@ namespace TuiHub.SavedataManager
             // current savedata is newer
             if (fsMaxLastWriteTime != null && fsMaxLastWriteTime > zipArchiveEntriesMaxLastWriteTime)
             {
-                _logger.LogWarning("Current App savedata is newer than the one to restore");
+                _log.Warn("Current App savedata is newer than the one to restore");
                 ret = true;
             }
             else
             {
-                _logger.LogDebug("Current App savedata is not newer than the one to restore");
+                _log.Debug("Current App savedata is not newer than the one to restore");
                 ret = false;
             }
             return ret;
