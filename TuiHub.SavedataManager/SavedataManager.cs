@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace TuiHub.SavedataManager
 {
-    internal static class Global
+    public partial class SavedataManager
     {
-        public static readonly JsonSerializerOptions JsonSerializerOptions = new()
+        private static readonly string s_savedataConfigFileName = "tuihub_savedata_config.json";
+        private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
         {
             WriteIndented = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
