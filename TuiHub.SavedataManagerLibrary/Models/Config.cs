@@ -18,21 +18,24 @@ namespace TuiHub.SavedataManagerLibrary.Models
     }
     public class Entry
     {
-        public string Id { get; set; } = String.Empty;
+        public long Id { get; set; } = -1;
         public PathMode PathMode { get; set; }
         public string Path { get; set; } = String.Empty;
 
         public string GetRealPath()
         {
+            var tempPath = Path;
+            if (Path.EndsWith('/') || Path.EndsWith('\\'))
+                tempPath = tempPath.Remove(tempPath.Length - 1);
             if (PathMode == PathMode.Document)
                 return System.IO.Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    Path);
+                    tempPath);
             else if (PathMode == PathMode.Profile)
                 return System.IO.Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                    Path);
-            else return Path;
+                    tempPath);
+            else return tempPath;
         }
 
         public EntryFSType GetFSType()
