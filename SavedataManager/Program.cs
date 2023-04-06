@@ -52,7 +52,7 @@ namespace SavedataManager
             var memoryStream = _manager.Store(opts.DirPath);
             if (memoryStream == null)
             {
-                _log.Error("memoryStream is null");
+                _log.Error("Store failed");
                 return;
             }
             string zipFileName = GenerateStoreZipFileName(appName);
@@ -91,7 +91,12 @@ namespace SavedataManager
                 _log.Warn("User approved, force overwrite app savedata");
             }
             _log.Debug("Current App savedata is not newer than the one to restore, overwrite");
-            _manager.Restore(archivePath, gameDirPath);
+            var result = _manager.Restore(archivePath, gameDirPath);
+            if (result == false)
+            {
+                _log.Error("Restore failed");
+                return;
+            }
         }
     }
 }
