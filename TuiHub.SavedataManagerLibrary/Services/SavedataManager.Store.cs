@@ -22,6 +22,14 @@ namespace TuiHub.SavedataManagerLibrary
             _log.Debug($"configPath = {configPath}");
             string configStr = File.ReadAllText(configPath, Encoding.UTF8);
             _log.Debug($"configStr = {configStr}");
+            _log.Debug("Starting config validation");
+            var validation = Validate(configStr);
+            if (validation == false)
+            {
+                _log.Error("Savedata config validation failed");
+                return null;
+            }
+            _log.Debug("Validation finished");
             _log.Debug("Starting config deserialization");
             var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
             if (config == null)
