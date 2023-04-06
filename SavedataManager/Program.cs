@@ -81,7 +81,7 @@ namespace SavedataManager
             // current savedata is newer
             if (forceOverwrite == false)
             {
-                if (_manager.CheckFSLastWriteTimeNewer(archivePath) == true)
+                if (_manager.CheckFSLastWriteTimeNewer(archivePath, gameDirPath) == true)
                 {
                     Console.Write("Current App savedata is newer than the one to restore, overwrite(Y/N): ");
                     var overWrite = UserInput.ReadLineYN();
