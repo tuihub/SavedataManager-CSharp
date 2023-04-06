@@ -90,7 +90,7 @@ namespace TuiHub.SavedataManagerLibrary
                                                     select zipArchiveEntry;
                     if (entry.GetFSType() == EntryFSType.Folder)
                     {
-                        if (zipArchiveEntriesFiltered.Count() == 0)
+                        if (zipArchiveEntriesFiltered.Any() == false)
                         {
                             _log.Warn($"Empty dir in entry: {entry.ToString()}");
                         }
