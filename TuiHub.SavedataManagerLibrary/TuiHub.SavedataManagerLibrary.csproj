@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JsonSchema.Net" Version="4.0.3" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Microsoft.Json.Schema" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Json.Schema.Validation" Version="2.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Sarif.Sdk" Version="4.1.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.2" />
   </ItemGroup>
 

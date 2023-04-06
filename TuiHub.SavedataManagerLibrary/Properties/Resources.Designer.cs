@@ -63,7 +63,7 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         /// <summary>
         ///   查找类似 {
         ///    &quot;$id&quot;: &quot;https://github.com/TuiHub/Protos/schemas/savedata/v1&quot;,
-        ///    &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+        ///    &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
         ///    &quot;title&quot;: &quot;Save File Configs&quot;,
         ///    &quot;properties&quot;: {
         ///        &quot;platform&quot;: {
@@ -77,7 +77,7 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         ///                    &quot;type&quot;: &quot;object&quot;,
         ///                    &quot;properties&quot;: {
         ///                        &quot;id&quot;: {
-        ///                   [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///                        [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string JsonSchemaStr {
             get {

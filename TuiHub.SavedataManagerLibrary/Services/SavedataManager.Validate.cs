@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TuiHub.SavedataManagerLibrary.Models;
-using Microsoft.Json.Schema.Validation;
-using Microsoft.Json.Schema;
 using TuiHub.SavedataManagerLibrary.Properties;
+using System.Text.Json.Nodes;
+using Json.Schema;
 
 namespace TuiHub.SavedataManagerLibrary
 {
@@ -21,19 +21,21 @@ namespace TuiHub.SavedataManagerLibrary
             _log.Info("Starting validation");
             var jsonSchemaStr = Resources.JsonSchemaStr;
             _log.Debug($"jsonSchemaStr = {jsonSchemaStr}");
-            var jsonSchema = JsonSerializer.Deserialize<JsonSchema>(jsonSchemaStr);
-            var validator = new Validator(jsonSchema);
             _log.Debug($"configStr = {configStr}");
+            var jsonNode = JsonNode.Parse(configStr);
+            var jsonSchema = JsonSchema.FromText(jsonSchemaStr, s_jsonSerializerOptions);
             _log.Debug("Starting validation");
-            var errors = validator.Validate(configStr, s_savedataConfigFileName);
+            var results = jsonSchema.Evaluate(jsonNode);
             _log.Debug("Validation finished");
             var ret = true;
-            if (errors.Any())
+            if (results.IsValid == false)
             {
-                foreach (var error in errors) _log.Debug($"{error}");
+                if (results.Errors != null)
+                    foreach (var error in results.Errors)
+                        _log.Debug($"{error}");
                 ret = false;
             }
-            _log.Info("Returning validation result");
+            _log.Debug("Returning validation result");
             return ret;
         }
     }
