@@ -22,8 +22,8 @@ namespace TuiHub.SavedataManagerLibrary
             _log.Debug($"configPath = {configPath}");
             string configStr = File.ReadAllText(configPath, Encoding.UTF8);
             _log.Debug($"configStr = {configStr}");
-            var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
             _log.Debug("Starting config deserialization");
+            var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
             if (config == null)
             {
                 _log.Error("config is null");
