@@ -18,7 +18,7 @@ namespace TuiHub.SavedataManagerLibrary
     {
         public bool Validate(string configStr)
         {
-            _log.Info("Starting validation");
+            _log.Debug("Starting validation");
             var jsonSchemaStr = Resources.JsonSchemaStr;
             _log.Debug($"jsonSchemaStr = {jsonSchemaStr}");
             _log.Debug($"configStr = {configStr}");

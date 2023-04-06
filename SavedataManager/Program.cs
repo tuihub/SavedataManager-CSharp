@@ -79,19 +79,25 @@ namespace SavedataManager
             var gameDirPath = opts.DirPath;
             var forceOverwrite = opts.Overwrite;
             // current savedata is newer
-            if (forceOverwrite == false && _manager.CheckFSLastWriteTimeNewer(archivePath) == true)
+            if (forceOverwrite == false)
             {
-                Console.Write("Current App savedata is newer than the one to restore, overwrite(Y/N): ");
-                var overWrite = UserInput.ReadLineYN();
-                if (overWrite == false)
+                if (_manager.CheckFSLastWriteTimeNewer(archivePath) == true)
                 {
-                    _log.Warn("User abort, exiting");
-                    Environment.Exit(0);
+                    Console.Write("Current App savedata is newer than the one to restore, overwrite(Y/N): ");
+                    var overWrite = UserInput.ReadLineYN();
+                    if (overWrite == false)
+                    {
+                        _log.Warn("User abort, exiting");
+                        Environment.Exit(0);
+                    }
+                    _log.Warn("User approved, force overwrite app savedata");
                 }
-                _log.Warn("User approved, force overwrite app savedata");
+                else
+                    _log.Debug("Current App savedata is not newer than the one to restore, overwrite");
             }
-            _log.Debug("Current App savedata is not newer than the one to restore, overwrite");
-            var result = _manager.Restore(archivePath, gameDirPath);
+            else
+                _log.Debug($"forceOverwrite is {forceOverwrite}, overwriting");
+            var result = _manager.Restore(archivePath, gameDirPath, true);
             if (result == false)
             {
                 _log.Error("Restore failed");
