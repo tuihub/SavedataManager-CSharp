@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            menuStrip1 = new MenuStrip();
-            fileToolStripMenuItem = new ToolStripMenuItem();
             flowLayoutPanel1 = new FlowLayoutPanel();
             restoreButton = new Button();
             storeButton = new Button();
             label1 = new Label();
             label2 = new Label();
-            gameFolderTextBox = new TextBox();
+            gamePathTextBox = new TextBox();
             savedataFileTextBox = new TextBox();
             folderSelectButton = new Button();
             fileSelectButton = new Button();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
-            menuStrip1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -54,7 +54,7 @@
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 2);
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(label2, 0, 1);
-            tableLayoutPanel1.Controls.Add(gameFolderTextBox, 1, 0);
+            tableLayoutPanel1.Controls.Add(gamePathTextBox, 1, 0);
             tableLayoutPanel1.Controls.Add(savedataFileTextBox, 1, 1);
             tableLayoutPanel1.Controls.Add(folderSelectButton, 2, 0);
             tableLayoutPanel1.Controls.Add(fileSelectButton, 2, 1);
@@ -69,21 +69,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(400, 185);
             tableLayoutPanel1.TabIndex = 0;
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(400, 25);
-            menuStrip1.TabIndex = 1;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(39, 21);
-            fileToolStripMenuItem.Text = "File";
             // 
             // flowLayoutPanel1
             // 
@@ -106,6 +91,7 @@
             restoreButton.TabIndex = 0;
             restoreButton.Text = "Restore";
             restoreButton.UseVisualStyleBackColor = true;
+            restoreButton.Click += restoreButton_Click;
             // 
             // storeButton
             // 
@@ -116,6 +102,7 @@
             storeButton.TabIndex = 1;
             storeButton.Text = "Store";
             storeButton.UseVisualStyleBackColor = true;
+            storeButton.Click += storeButton_Click;
             // 
             // label1
             // 
@@ -125,7 +112,7 @@
             label1.Name = "label1";
             label1.Size = new Size(64, 34);
             label1.TabIndex = 1;
-            label1.Text = "Game Folder";
+            label1.Text = "Game Path";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -139,14 +126,14 @@
             label2.Text = "Savedata File";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // gameFolderTextBox
+            // gamePathTextBox
             // 
-            gameFolderTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            gameFolderTextBox.Location = new Point(73, 25);
-            gameFolderTextBox.Name = "gameFolderTextBox";
-            gameFolderTextBox.ReadOnly = true;
-            gameFolderTextBox.Size = new Size(258, 23);
-            gameFolderTextBox.TabIndex = 3;
+            gamePathTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            gamePathTextBox.Location = new Point(73, 25);
+            gamePathTextBox.Name = "gamePathTextBox";
+            gamePathTextBox.ReadOnly = true;
+            gamePathTextBox.Size = new Size(258, 23);
+            gamePathTextBox.TabIndex = 3;
             // 
             // savedataFileTextBox
             // 
@@ -166,6 +153,7 @@
             folderSelectButton.TabIndex = 5;
             folderSelectButton.Text = "...";
             folderSelectButton.UseVisualStyleBackColor = true;
+            folderSelectButton.Click += folderSelectButton_Click;
             // 
             // fileSelectButton
             // 
@@ -176,6 +164,22 @@
             fileSelectButton.TabIndex = 6;
             fileSelectButton.Text = "...";
             fileSelectButton.UseVisualStyleBackColor = true;
+            fileSelectButton.Click += fileSelectButton_Click;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(400, 25);
+            menuStrip1.TabIndex = 1;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(39, 21);
+            fileToolStripMenuItem.Text = "File";
             // 
             // MainForm
             // 
@@ -189,9 +193,9 @@
             Text = "Savedata Manager GUI";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -204,7 +208,7 @@
         private Button storeButton;
         private Label label1;
         private Label label2;
-        private TextBox gameFolderTextBox;
+        private TextBox gamePathTextBox;
         private TextBox savedataFileTextBox;
         private Button folderSelectButton;
         private Button fileSelectButton;
