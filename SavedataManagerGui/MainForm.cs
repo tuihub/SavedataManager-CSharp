@@ -147,7 +147,7 @@ namespace SavedataManagerGui
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (files != null && files.Count() == 1 && Directory.Exists(files[0]) == false)
             {
-                gameFolderPathTextBox.Text = files[0];
+                savedataFileTextBox.Text = files[0];
             }
         }
     }
