@@ -41,7 +41,7 @@
             toolStripAddFolderButton = new ToolStripButton();
             toolStripDeleteButton = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
-            toolStripGameFolderTextBox = new ToolStripTextBox();
+            toolStripGameFolderPathTextBox = new ToolStripTextBox();
             entryDataGridView = new DataGridView();
             id = new DataGridViewTextBoxColumn();
             pathMode = new DataGridViewComboBoxColumn();
@@ -103,7 +103,7 @@
             // 
             toolStrip1.AllowDrop = true;
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripChooseGameFolderButton, toolStripAddFileButton, toolStripAddFolderButton, toolStripDeleteButton, toolStripSeparator1, toolStripGameFolderTextBox });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripChooseGameFolderButton, toolStripAddFileButton, toolStripAddFolderButton, toolStripDeleteButton, toolStripSeparator1, toolStripGameFolderPathTextBox });
             toolStrip1.Location = new Point(0, 25);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -153,11 +153,11 @@
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(6, 25);
             // 
-            // toolStripGameFolderTextBox
+            // toolStripGameFolderPathTextBox
             // 
-            toolStripGameFolderTextBox.Name = "toolStripGameFolderTextBox";
-            toolStripGameFolderTextBox.ReadOnly = true;
-            toolStripGameFolderTextBox.Size = new Size(325, 25);
+            toolStripGameFolderPathTextBox.Name = "toolStripGameFolderPathTextBox";
+            toolStripGameFolderPathTextBox.ReadOnly = true;
+            toolStripGameFolderPathTextBox.Size = new Size(325, 25);
             // 
             // entryDataGridView
             // 
@@ -236,7 +236,7 @@
         private ToolStripButton toolStripAddFolderButton;
         private ToolStripButton toolStripDeleteButton;
         private ToolStripButton toolStripChooseGameFolderButton;
-        private ToolStripTextBox toolStripGameFolderTextBox;
+        private ToolStripTextBox toolStripGameFolderPathTextBox;
         private ToolStripSeparator toolStripSeparator1;
         private DataGridView entryDataGridView;
         private DataGridViewTextBoxColumn id;

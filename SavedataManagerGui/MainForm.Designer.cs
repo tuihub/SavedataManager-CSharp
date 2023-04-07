@@ -34,7 +34,7 @@
             storeButton = new Button();
             label1 = new Label();
             label2 = new Label();
-            gamePathTextBox = new TextBox();
+            gameFolderPathTextBox = new TextBox();
             savedataFileTextBox = new TextBox();
             folderSelectButton = new Button();
             fileSelectButton = new Button();
@@ -54,7 +54,7 @@
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 2);
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(label2, 0, 1);
-            tableLayoutPanel1.Controls.Add(gamePathTextBox, 1, 0);
+            tableLayoutPanel1.Controls.Add(gameFolderPathTextBox, 1, 0);
             tableLayoutPanel1.Controls.Add(savedataFileTextBox, 1, 1);
             tableLayoutPanel1.Controls.Add(folderSelectButton, 2, 0);
             tableLayoutPanel1.Controls.Add(fileSelectButton, 2, 1);
@@ -112,7 +112,7 @@
             label1.Name = "label1";
             label1.Size = new Size(64, 34);
             label1.TabIndex = 1;
-            label1.Text = "Game Path";
+            label1.Text = "Game Folder";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -126,17 +126,17 @@
             label2.Text = "Savedata File";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // gamePathTextBox
+            // gameFolderPathTextBox
             // 
-            gamePathTextBox.AllowDrop = true;
-            gamePathTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            gamePathTextBox.Location = new Point(73, 25);
-            gamePathTextBox.Name = "gamePathTextBox";
-            gamePathTextBox.ReadOnly = true;
-            gamePathTextBox.Size = new Size(258, 23);
-            gamePathTextBox.TabIndex = 3;
-            gamePathTextBox.DragDrop += gamePathTextBox_DragDrop;
-            gamePathTextBox.DragEnter += gamePathTextBox_DragEnter;
+            gameFolderPathTextBox.AllowDrop = true;
+            gameFolderPathTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            gameFolderPathTextBox.Location = new Point(73, 25);
+            gameFolderPathTextBox.Name = "gameFolderPathTextBox";
+            gameFolderPathTextBox.ReadOnly = true;
+            gameFolderPathTextBox.Size = new Size(258, 23);
+            gameFolderPathTextBox.TabIndex = 3;
+            gameFolderPathTextBox.DragDrop += gameFolderPathTextBox_DragDrop;
+            gameFolderPathTextBox.DragEnter += gameFolderPathTextBox_DragEnter;
             // 
             // savedataFileTextBox
             // 
@@ -214,7 +214,7 @@
         private Button storeButton;
         private Label label1;
         private Label label2;
-        private TextBox gamePathTextBox;
+        private TextBox gameFolderPathTextBox;
         private TextBox savedataFileTextBox;
         private Button folderSelectButton;
         private Button fileSelectButton;

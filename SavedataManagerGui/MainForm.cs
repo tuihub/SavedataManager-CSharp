@@ -29,7 +29,7 @@ namespace SavedataManagerGui
             var folderPath = _folderBrowserDialog.SelectedPath;
             if (dialogResult == DialogResult.OK && String.IsNullOrEmpty(folderPath) == false)
             {
-                gamePathTextBox.Text = folderPath;
+                gameFolderPathTextBox.Text = folderPath;
             }
         }
 
@@ -45,15 +45,15 @@ namespace SavedataManagerGui
 
         private void storeButton_Click(object sender, EventArgs e)
         {
-            var gamePath = gamePathTextBox.Text;
-            if (string.IsNullOrEmpty(gamePath))
+            var gameFolderPath = gameFolderPathTextBox.Text;
+            if (string.IsNullOrEmpty(gameFolderPath))
             {
                 MessageBox.Show("Must select game path first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             try
             {
-                var memoryStream = _manager.Store(gamePath);
+                var memoryStream = _manager.Store(gameFolderPath);
                 if (memoryStream == null)
                 {
                     MessageBox.Show("Store failed", "Result", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -76,8 +76,8 @@ namespace SavedataManagerGui
 
         private void restoreButton_Click(object sender, EventArgs e)
         {
-            var gamePath = gamePathTextBox.Text;
-            if (string.IsNullOrEmpty(gamePath))
+            var gameFolderPath = gameFolderPathTextBox.Text;
+            if (string.IsNullOrEmpty(gameFolderPath))
             {
                 MessageBox.Show("Must select game path first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -90,7 +90,7 @@ namespace SavedataManagerGui
             }
             try
             {
-                if (_manager.CheckFSLastWriteTimeNewer(savedataFilePath, gamePath) == true)
+                if (_manager.CheckFSLastWriteTimeNewer(savedataFilePath, gameFolderPath) == true)
                 {
                     var dialogResult = MessageBox.Show("Current App savedata is newer than the one to restore, overwrite?",
                                                        "Overwrite", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
@@ -99,7 +99,7 @@ namespace SavedataManagerGui
                         return;
                     }
                 }
-                var result = _manager.Restore(savedataFilePath, gamePath, true);
+                var result = _manager.Restore(savedataFilePath, gameFolderPath, true);
                 if (result == true)
                 {
                     MessageBox.Show("Restore succeed", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -115,7 +115,7 @@ namespace SavedataManagerGui
             }
         }
 
-        private void gamePathTextBox_DragEnter(object sender, DragEventArgs e)
+        private void gameFolderPathTextBox_DragEnter(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (files != null && files.Count() == 1 && Directory.Exists(files[0]))
@@ -124,12 +124,12 @@ namespace SavedataManagerGui
             }
         }
 
-        private void gamePathTextBox_DragDrop(object sender, DragEventArgs e)
+        private void gameFolderPathTextBox_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (files != null && files.Count() == 1 && Directory.Exists(files[0]))
             {
-                gamePathTextBox.Text = files[0];
+                gameFolderPathTextBox.Text = files[0];
             }
         }
 
@@ -147,7 +147,7 @@ namespace SavedataManagerGui
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (files != null && files.Count() == 1 && Directory.Exists(files[0]) == false)
             {
-                gamePathTextBox.Text = files[0];
+                gameFolderPathTextBox.Text = files[0];
             }
         }
     }

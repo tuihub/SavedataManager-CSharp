@@ -37,7 +37,7 @@ namespace SavedataConfigManager
                 // change title - append current opened file path
                 this.Text += " - " + filePath;
                 // update toolStripGameFolderTextBox.Text
-                toolStripGameFolderTextBox.Text = Path.GetDirectoryName(filePath);
+                toolStripGameFolderPathTextBox.Text = Path.GetDirectoryName(filePath);
 
                 string configStr = File.ReadAllText(filePath, Global.UTF8WithoutBom);
                 var config = JsonSerializer.Deserialize<Config>(configStr, Global.JsonSerializerOptions);
@@ -51,8 +51,8 @@ namespace SavedataConfigManager
 
         private void toolStripAddFileButton_Click(object sender, EventArgs e)
         {
-            var gamePath = toolStripGameFolderTextBox.Text;
-            if (string.IsNullOrEmpty(gamePath))
+            var gameFolderPath = toolStripGameFolderPathTextBox.Text;
+            if (string.IsNullOrEmpty(gameFolderPath))
             {
                 MessageBox.Show("Must select game path first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -61,7 +61,7 @@ namespace SavedataConfigManager
             var filePath = _openAnyFileDialog.FileName;
             if (dialogResult == DialogResult.OK && String.IsNullOrEmpty(filePath) == false)
             {
-                entryDataGridView.AddFile(gamePath, filePath);
+                entryDataGridView.AddFile(gameFolderPath, filePath);
             }
         }
 
@@ -71,14 +71,14 @@ namespace SavedataConfigManager
             var folderPath = _folderBrowserDialog.SelectedPath;
             if (dialogResult == DialogResult.OK && String.IsNullOrEmpty(folderPath) == false)
             {
-                toolStripGameFolderTextBox.Text = folderPath;
+                toolStripGameFolderPathTextBox.Text = folderPath;
             }
         }
 
         private void toolStripAddFolderButton_Click(object sender, EventArgs e)
         {
-            var gamePath = toolStripGameFolderTextBox.Text;
-            if (string.IsNullOrEmpty(gamePath))
+            var gameFolderPath = toolStripGameFolderPathTextBox.Text;
+            if (string.IsNullOrEmpty(gameFolderPath))
             {
                 MessageBox.Show("Must select game path first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -87,7 +87,7 @@ namespace SavedataConfigManager
             var folderPath = _folderBrowserDialog.SelectedPath;
             if (dialogResult == DialogResult.OK && String.IsNullOrEmpty(folderPath) == false)
             {
-                entryDataGridView.AddFolder(gamePath, folderPath);
+                entryDataGridView.AddFolder(gameFolderPath, folderPath);
             }
         }
 
@@ -140,8 +140,8 @@ namespace SavedataConfigManager
 
         private void entryDataGridView_DragDrop(object sender, DragEventArgs e)
         {
-            var gamePath = toolStripGameFolderTextBox.Text;
-            if (string.IsNullOrEmpty(gamePath))
+            var gameFolderPath = toolStripGameFolderPathTextBox.Text;
+            if (string.IsNullOrEmpty(gameFolderPath))
             {
                 MessageBox.Show("Must select game path first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -154,12 +154,12 @@ namespace SavedataConfigManager
                     // is folder
                     if (Directory.Exists(file))
                     {
-                        entryDataGridView.AddFolder(gamePath, file);
+                        entryDataGridView.AddFolder(gameFolderPath, file);
                     }
                     // is file
                     else
                     {
-                        entryDataGridView.AddFile(gamePath, file);
+                        entryDataGridView.AddFile(gameFolderPath, file);
                     }
                 }
             }
@@ -189,7 +189,7 @@ namespace SavedataConfigManager
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (files != null && files.Count() == 1 && Directory.Exists(files[0]))
             {
-                toolStripGameFolderTextBox.Text = files[0];
+                toolStripGameFolderPathTextBox.Text = files[0];
             }
         }
     }
