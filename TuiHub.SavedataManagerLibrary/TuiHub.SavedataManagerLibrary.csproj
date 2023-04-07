@@ -4,6 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.1.3</Version>
+    <Authors>TuiHub</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/TuiHub/SavedataManager-CSharp.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/TuiHub/SavedataManager-CSharp</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
