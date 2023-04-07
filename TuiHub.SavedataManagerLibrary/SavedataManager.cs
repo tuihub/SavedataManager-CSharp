@@ -1,6 +1,8 @@
 ﻿using log4net;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 
 namespace TuiHub.SavedataManagerLibrary
 {
@@ -15,7 +17,9 @@ namespace TuiHub.SavedataManagerLibrary
             Converters =
             {
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-            }
+            },
+            // not converting to ASCII char
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         };
         private readonly ILog _log;
         public SavedataManager(ILog log)
