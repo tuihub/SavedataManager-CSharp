@@ -1,4 +1,5 @@
 ﻿using log4net;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -8,6 +9,7 @@ namespace TuiHub.SavedataManagerLibrary
 {
     public partial class SavedataManager
     {
+        private static readonly Encoding s_UTF8WithoutBom = new UTF8Encoding(false);
         private static readonly string s_savedataConfigFileName = "tuihub_savedata_config.json";
         private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
         {

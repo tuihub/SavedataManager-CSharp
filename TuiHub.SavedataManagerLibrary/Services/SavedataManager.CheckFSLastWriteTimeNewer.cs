@@ -29,7 +29,7 @@ namespace TuiHub.SavedataManagerLibrary
                 _log.Error("configEntry is null");
                 return false;
             }
-            using var configEntryStreamReader = new StreamReader(configEntry.Open(), Encoding.UTF8);
+            using var configEntryStreamReader = new StreamReader(configEntry.Open(), s_UTF8WithoutBom);
             string configStr = configEntryStreamReader.ReadToEnd();
             _log.Debug($"configStr = {configStr}");
             _log.Debug("Starting config validation");

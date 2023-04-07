@@ -20,7 +20,7 @@ namespace TuiHub.SavedataManagerLibrary
             Directory.SetCurrentDirectory(gameDirPath);
             string configPath = Path.Combine(Environment.CurrentDirectory, s_savedataConfigFileName);
             _log.Debug($"configPath = {configPath}");
-            string configStr = File.ReadAllText(configPath, Encoding.UTF8);
+            string configStr = File.ReadAllText(configPath, s_UTF8WithoutBom);
             _log.Debug($"configStr = {configStr}");
             _log.Debug("Starting config validation");
             var validation = Validate(configStr);
