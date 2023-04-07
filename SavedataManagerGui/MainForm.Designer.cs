@@ -128,21 +128,27 @@
             // 
             // gamePathTextBox
             // 
+            gamePathTextBox.AllowDrop = true;
             gamePathTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             gamePathTextBox.Location = new Point(73, 25);
             gamePathTextBox.Name = "gamePathTextBox";
             gamePathTextBox.ReadOnly = true;
             gamePathTextBox.Size = new Size(258, 23);
             gamePathTextBox.TabIndex = 3;
+            gamePathTextBox.DragDrop += gamePathTextBox_DragDrop;
+            gamePathTextBox.DragEnter += gamePathTextBox_DragEnter;
             // 
             // savedataFileTextBox
             // 
+            savedataFileTextBox.AllowDrop = true;
             savedataFileTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             savedataFileTextBox.Location = new Point(73, 99);
             savedataFileTextBox.Name = "savedataFileTextBox";
             savedataFileTextBox.ReadOnly = true;
             savedataFileTextBox.Size = new Size(258, 23);
             savedataFileTextBox.TabIndex = 4;
+            savedataFileTextBox.DragDrop += savedataFileTextBox_DragDrop;
+            savedataFileTextBox.DragEnter += savedataFileTextBox_DragEnter;
             // 
             // folderSelectButton
             // 

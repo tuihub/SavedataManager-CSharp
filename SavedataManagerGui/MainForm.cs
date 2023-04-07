@@ -114,5 +114,41 @@ namespace SavedataManagerGui
                 MessageBox.Show(ex != null ? ex.Message : "Unknown", "Restore error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void gamePathTextBox_DragEnter(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files.Count() == 1 && Directory.Exists(files[0]))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void gamePathTextBox_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files.Count() == 1 && Directory.Exists(files[0]))
+            {
+                gamePathTextBox.Text = files[0];
+            }
+        }
+
+        private void savedataFileTextBox_DragEnter(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files.Count() == 1 && Directory.Exists(files[0]) == false)
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void savedataFileTextBox_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files.Count() == 1 && Directory.Exists(files[0]) == false)
+            {
+                gamePathTextBox.Text = files[0];
+            }
+        }
     }
 }
