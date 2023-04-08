@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/TuiHub/SavedataManager-CSharp</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>savedata manager library for TuiHub</Description>
   </PropertyGroup>
 
   <ItemGroup>
