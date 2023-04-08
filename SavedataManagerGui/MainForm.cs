@@ -54,11 +54,6 @@ namespace SavedataManagerGui
             try
             {
                 var memoryStream = _manager.Store(gameFolderPath);
-                if (memoryStream == null)
-                {
-                    MessageBox.Show("Store failed", "Result", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
                 if (string.IsNullOrEmpty(_saveZipFileDialog.FileName)) _saveZipFileDialog.FileName = "dummy.zip";
                 var dialogResult = _saveZipFileDialog.ShowDialog();
                 var filePath = _saveZipFileDialog.FileName;

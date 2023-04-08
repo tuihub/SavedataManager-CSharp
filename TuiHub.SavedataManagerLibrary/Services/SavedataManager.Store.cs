@@ -13,7 +13,7 @@ namespace TuiHub.SavedataManagerLibrary
 {
     public partial class SavedataManager
     {
-        public MemoryStream? Store(string gameDirPath)
+        public MemoryStream Store(string gameDirPath)
         {
             _log.Info("Starting store");
             _log.Debug($"Setting CurrentDirectory to {gameDirPath}");

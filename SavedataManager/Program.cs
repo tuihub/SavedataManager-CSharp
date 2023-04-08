@@ -50,11 +50,6 @@ namespace SavedataManager
         {
             var appName = opts.AppName;
             var memoryStream = _manager.Store(opts.DirPath);
-            if (memoryStream == null)
-            {
-                _log.Error("Store failed");
-                return;
-            }
             string zipFileName = GenerateStoreZipFileName(appName);
             _log.Info($"Savedata filename: {zipFileName}");
             string zipFilePath = Path.Combine(Global.SavedataArchiveFolderPath, zipFileName);
