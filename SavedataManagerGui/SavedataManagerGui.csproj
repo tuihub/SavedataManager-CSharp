@@ -12,7 +12,10 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="TuiHub.SavedataManagerLibrary" Version="0.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TuiHub.SavedataManagerLibrary\TuiHub.SavedataManagerLibrary.csproj" />
   </ItemGroup>
 
 </Project>

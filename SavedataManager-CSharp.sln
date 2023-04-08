@@ -12,7 +12,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TuiHub.SavedataManagerLibra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavedataConfigManager", "SavedataConfigManager\SavedataConfigManager.csproj", "{EA3C26CA-12C4-4E81-915C-604C9877145F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavedataManagerGui", "SavedataManagerGui\SavedataManagerGui.csproj", "{1EA9DAAF-CF0C-4DE0-9CC6-5E732737EA61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavedataManagerGui", "SavedataManagerGui\SavedataManagerGui.csproj", "{1EA9DAAF-CF0C-4DE0-9CC6-5E732737EA61}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0E927840-4624-4C44-8874-E7EDC2830A8D} = {0E927840-4624-4C44-8874-E7EDC2830A8D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
