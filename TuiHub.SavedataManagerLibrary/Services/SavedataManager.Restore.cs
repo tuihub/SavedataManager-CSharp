@@ -97,13 +97,14 @@ namespace TuiHub.SavedataManagerLibrary
                         else
                         {
                             var e = zipArchiveEntriesFiltered.First();
-                            var folder = FolderHelper.GetRootFolder(e.FullName.Substring(zipArchiveBaseDirName.Length + 1));
-                            if (folder == null)
-                            {
-                                _log.Error("zipArchiveBaseDirName.GetRootFolder() is null");
-                                return false;
-                            }
-                            var path = Path.Combine(extractPath, folder);
+                            // not use folder path in zipArchive, use the one in config entry
+                            //var folder = FolderHelper.GetRootFolder(e.FullName.Substring(zipArchiveBaseDirName.Length + 1));
+                            //if (folder == null)
+                            //{
+                            //    _log.Error("zipArchiveBaseDirName.GetRootFolder() is null");
+                            //    return false;
+                            //}
+                            var path = extractPath;
                             if (deletedFolder.Contains(path))
                             {
                                 _log.Debug($"Dir {path} have been deleted");

@@ -15,7 +15,9 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             var fileName = Path.GetFileName(sourceName);
             if (File.GetAttributes(sourceName).HasFlag(FileAttributes.Directory))
             {
-                archive.CreateEntryFromDirectory(sourceName, Path.Combine(entryName, fileName));
+                // do not create another folder named {fileName}
+                //archive.CreateEntryFromDirectory(sourceName, Path.Combine(entryName, fileName));
+                archive.CreateEntryFromDirectory(sourceName, entryName);
             }
             else
             {

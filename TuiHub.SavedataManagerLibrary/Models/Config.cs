@@ -24,19 +24,20 @@ namespace TuiHub.SavedataManagerLibrary.Models
 
         public string GetRealPath()
         {
-            var tempPath = Path;
-            if (tempPath.EndsWith(System.IO.Path.DirectorySeparatorChar) ||
-                tempPath.EndsWith(System.IO.Path.AltDirectorySeparatorChar))
-                tempPath = tempPath.Remove(tempPath.Length - 1);
+            // not remove last folder in path
+            //var tempPath = Path;
+            //if (tempPath.EndsWith(System.IO.Path.DirectorySeparatorChar) ||
+            //    tempPath.EndsWith(System.IO.Path.AltDirectorySeparatorChar))
+            //    tempPath = tempPath.Remove(tempPath.Length - 1);
             if (PathMode == PathMode.Document)
                 return System.IO.Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    tempPath);
+                    Path);
             else if (PathMode == PathMode.Profile)
                 return System.IO.Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                    tempPath);
-            else return tempPath;
+                    Path);
+            else return Path;
         }
 
         public EntryFSType GetFSType()
