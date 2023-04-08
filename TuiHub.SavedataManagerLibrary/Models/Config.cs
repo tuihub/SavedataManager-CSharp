@@ -25,7 +25,8 @@ namespace TuiHub.SavedataManagerLibrary.Models
         public string GetRealPath()
         {
             var tempPath = Path;
-            if (Path.EndsWith('/') || Path.EndsWith('\\'))
+            if (Path.EndsWith(System.IO.Path.DirectorySeparatorChar) ||
+                Path.EndsWith(System.IO.Path.AltDirectorySeparatorChar))
                 tempPath = tempPath.Remove(tempPath.Length - 1);
             if (PathMode == PathMode.Document)
                 return System.IO.Path.Combine(
@@ -40,7 +41,8 @@ namespace TuiHub.SavedataManagerLibrary.Models
 
         public EntryFSType GetFSType()
         {
-            if (Path.EndsWith('/') || Path.EndsWith('\\'))
+            if (Path.EndsWith(System.IO.Path.DirectorySeparatorChar) ||
+                Path.EndsWith(System.IO.Path.AltDirectorySeparatorChar))
                 return EntryFSType.Folder;
             else return EntryFSType.File;
         }
