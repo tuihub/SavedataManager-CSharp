@@ -27,7 +27,7 @@ namespace TuiHub.SavedataManagerLibrary
             if (validation == false)
             {
                 _log.Error("Savedata config validation failed");
-                return null;
+                throw new Exception("Savedata config validation failed");
             }
             _log.Debug("Validation finished");
             _log.Debug("Starting config deserialization");
@@ -35,7 +35,7 @@ namespace TuiHub.SavedataManagerLibrary
             if (config == null)
             {
                 _log.Error("config is null");
-                return null;
+                throw new Exception("config is null");
             }
             _log.Debug("Config deserialization finished");
 

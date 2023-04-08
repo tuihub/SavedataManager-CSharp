@@ -31,7 +31,7 @@ namespace TuiHub.SavedataManagerLibrary
             if (configEntry == null)
             {
                 _log.Error("configEntry is null");
-                return false;
+                throw new Exception("configEntry is null");
             }
             using var configEntryStreamReader = new StreamReader(configEntry.Open(), s_UTF8WithoutBom);
             string configStr = configEntryStreamReader.ReadToEnd();
@@ -41,7 +41,7 @@ namespace TuiHub.SavedataManagerLibrary
             if (validation == false)
             {
                 _log.Error("Savedata config validation failed");
-                return false;
+                throw new Exception("Savedata config validation failed");
             }
             _log.Debug("Validation finished");
             _log.Debug("Starting config deserialization");
@@ -49,7 +49,7 @@ namespace TuiHub.SavedataManagerLibrary
             if (config == null)
             {
                 _log.Error("config is null");
-                return false;
+                throw new Exception("config is null");
             }
             _log.Debug("Config deserialization finished");
 
@@ -78,7 +78,7 @@ namespace TuiHub.SavedataManagerLibrary
                     if (extractPath == null)
                     {
                         _log.Error("extractPath is null");
-                        return false;
+                        throw new Exception("extractPath is null");
                     }
                     _log.Debug($"entry.GetRealPath() = {entry.GetRealPath()}");
                     _log.Debug($"extractPath = {extractPath}");
@@ -137,7 +137,7 @@ namespace TuiHub.SavedataManagerLibrary
                         if (pathDirName == null)
                         {
                             _log.Error("pathDirName is null");
-                            return false;
+                            throw new Exception("pathDirName is null");
                         }
                         if (Directory.Exists(pathDirName) == false)
                         {
