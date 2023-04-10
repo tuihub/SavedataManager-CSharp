@@ -128,6 +128,8 @@ namespace SavedataConfigManager
         {
             // add default name
             _saveFileDialog.FileName = Global.SavedataConfigFileName;
+            // always set initial dir to game folder path
+            _saveFileDialog.InitialDirectory = toolStripGameFolderPathTextBox.Text;
             var dialogResult = _saveFileDialog.ShowDialog();
             var filePath = _saveFileDialog.FileName;
             if (dialogResult == DialogResult.OK && String.IsNullOrEmpty(filePath) == false)
