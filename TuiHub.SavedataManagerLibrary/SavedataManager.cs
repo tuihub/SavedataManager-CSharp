@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -7,7 +7,7 @@ using System.Text.Unicode;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager
+    public partial class SavedataManager<T>
     {
         private static readonly Encoding s_UTF8WithoutBom = new UTF8Encoding(false);
         private static readonly string s_savedataConfigFileName = "tuihub_savedata_config.json";
@@ -23,10 +23,10 @@ namespace TuiHub.SavedataManagerLibrary
             // not converting to ASCII char
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         };
-        private readonly ILog _log;
-        public SavedataManager(ILog log)
+        private readonly ILogger<T>? _logger;
+        public SavedataManager(ILogger<T>? logger)
         {
-            _log = log;
+            _logger = logger;
         }
     }
 }

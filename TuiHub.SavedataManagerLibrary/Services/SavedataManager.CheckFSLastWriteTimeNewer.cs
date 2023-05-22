@@ -1,4 +1,4 @@
-﻿using log4net;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,42 +12,42 @@ using TuiHub.SavedataManagerLibrary.Utils;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager
+    public partial class SavedataManager<T>
     {
         public bool CheckFSLastWriteTimeNewer(string archivePath, string gameDirPath)
         {
             string workDir = gameDirPath;
-            _log.Debug($"workDir = {workDir}");
-            _log.Debug($"Setting CurrentDirectory to {workDir}");
+            _logger?.LogDebug($"workDir = {workDir}");
+            _logger?.LogDebug($"Setting CurrentDirectory to {workDir}");
             Directory.SetCurrentDirectory(workDir);
             string savedataArchivePath = archivePath;
-            _log.Debug($"savedataArchivePath = {savedataArchivePath}");
+            _logger?.LogDebug($"savedataArchivePath = {savedataArchivePath}");
             using var zipArchive = ZipFile.Open(savedataArchivePath, ZipArchiveMode.Read);
             var configEntry = zipArchive.GetEntry(s_savedataConfigFileName);
             if (configEntry == null)
             {
-                _log.Error("configEntry is null");
+                _logger?.LogError("configEntry is null");
                 throw new Exception("configEntry is null");
             }
             using var configEntryStreamReader = new StreamReader(configEntry.Open(), s_UTF8WithoutBom);
             string configStr = configEntryStreamReader.ReadToEnd();
-            _log.Debug($"configStr = {configStr}");
-            _log.Debug("Starting config validation");
+            _logger?.LogDebug($"configStr = {configStr}");
+            _logger?.LogDebug("Starting config validation");
             var validation = Validate(configStr);
             if (validation == false)
             {
-                _log.Error("Savedata config validation failed");
+                _logger?.LogError("Savedata config validation failed");
                 throw new Exception("Savedata config validation failed");
             }
-            _log.Debug("Validation finished");
-            _log.Debug("Starting config deserialization");
+            _logger?.LogDebug("Validation finished");
+            _logger?.LogDebug("Starting config deserialization");
             var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
             if (config == null)
             {
-                _log.Error("config is null");
+                _logger?.LogError("config is null");
                 throw new Exception("config is null");
             }
-            _log.Debug("Config deserialization finished");
+            _logger?.LogDebug("Config deserialization finished");
 
             return InnerCheckFSLastWriteTimeNewer(config, zipArchive);
         }
@@ -56,24 +56,24 @@ namespace TuiHub.SavedataManagerLibrary
         {
             // compare LastWriteTime
             var zipArchiveEntriesMaxLastWriteTime = zipArchive.GetEntriesMaxLastWriteTime(s_savedataConfigFileName);
-            _log.Debug($"zipArchiveEntriesMaxLastWriteTime = {zipArchiveEntriesMaxLastWriteTime}");
+            _logger?.LogDebug($"zipArchiveEntriesMaxLastWriteTime = {zipArchiveEntriesMaxLastWriteTime}");
             DateTime? fsMaxLastWriteTime = null;
 
             if (config.Entries == null)
-                _log.Warn("config.Entries is null");
+                _logger?.LogWarning("config.Entries is null");
             else
                 foreach (var entry in config.Entries)
                 {
-                    _log.Debug($"{entry.ToString()}");
+                    _logger?.LogDebug($"{entry.ToString()}");
                     if (entry.GetFSType() == EntryFSType.File)
                     {
-                        _log.Debug($"Checking file: {entry.GetRealPath()}");
+                        _logger?.LogDebug($"Checking file: {entry.GetRealPath()}");
                         var curFileLastWriteTime = File.GetLastWriteTime(entry.GetRealPath());
-                        _log.Debug($"curFileLastWriteTime = {curFileLastWriteTime}");
-                        _log.Debug($"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
+                        _logger?.LogDebug($"curFileLastWriteTime = {curFileLastWriteTime}");
+                        _logger?.LogDebug($"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
                         if (fsMaxLastWriteTime == null || curFileLastWriteTime > fsMaxLastWriteTime)
                         {
-                            _log.Debug($"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
+                            _logger?.LogDebug($"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
                             fsMaxLastWriteTime = curFileLastWriteTime;
                         }
                     }
@@ -81,19 +81,19 @@ namespace TuiHub.SavedataManagerLibrary
                     {
                         if (Directory.Exists(entry.GetRealPath()) == false)
                         {
-                            _log.Debug($"Dir {entry.GetRealPath()} not exists, skip");
+                            _logger?.LogDebug($"Dir {entry.GetRealPath()} not exists, skip");
                             continue;
                         }
                         var files = Directory.GetFiles(entry.GetRealPath(), "*", SearchOption.AllDirectories);
                         foreach (var file in files)
                         {
-                            _log.Debug($"Checking file: {file}");
+                            _logger?.LogDebug($"Checking file: {file}");
                             var curFileLastWriteTime = File.GetLastWriteTime(file);
-                            _log.Debug($"curFileLastWriteTime = {curFileLastWriteTime}");
-                            _log.Debug($"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
+                            _logger?.LogDebug($"curFileLastWriteTime = {curFileLastWriteTime}");
+                            _logger?.LogDebug($"fsMaxLastWriteTime = {fsMaxLastWriteTime}");
                             if (fsMaxLastWriteTime == null || curFileLastWriteTime > fsMaxLastWriteTime)
                             {
-                                _log.Debug($"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
+                                _logger?.LogDebug($"Updating fsMaxLastWriteTime = {curFileLastWriteTime}");
                                 fsMaxLastWriteTime = curFileLastWriteTime;
                             }
                         }
@@ -103,12 +103,12 @@ namespace TuiHub.SavedataManagerLibrary
             // current savedata is newer
             if (fsMaxLastWriteTime != null && fsMaxLastWriteTime > zipArchiveEntriesMaxLastWriteTime)
             {
-                _log.Warn("Current App savedata is newer than the one to restore");
+                _logger?.LogWarning("Current App savedata is newer than the one to restore");
                 ret = true;
             }
             else
             {
-                _log.Debug("Current App savedata is not newer than the one to restore");
+                _logger?.LogDebug("Current App savedata is not newer than the one to restore");
                 ret = false;
             }
             return ret;

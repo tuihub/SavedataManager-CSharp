@@ -1,5 +1,4 @@
-﻿using log4net;
-using TuiHub.SavedataManagerLibrary.Utils;
+﻿using TuiHub.SavedataManagerLibrary.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,79 +8,80 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TuiHub.SavedataManagerLibrary.Models;
+using Microsoft.Extensions.Logging;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager
+    public partial class SavedataManager<T>
     {
         public bool Restore(string archivePath, string gameDirPath, bool forceOverwrite = false)
         {
-            _log.Info("Starting restore");
+            _logger?.LogInformation("Starting restore");
 
             string savedataArchivePath = archivePath;
-            _log.Debug($"savedataArchivePath = {savedataArchivePath}");
+            _logger?.LogDebug($"savedataArchivePath = {savedataArchivePath}");
             using var zipArchive = ZipFile.Open(savedataArchivePath, ZipArchiveMode.Read);
             string workDir = gameDirPath;
-            _log.Debug($"workDir = {workDir}");
-            _log.Debug($"Setting CurrentDirectory to {workDir}");
+            _logger?.LogDebug($"workDir = {workDir}");
+            _logger?.LogDebug($"Setting CurrentDirectory to {workDir}");
             Directory.SetCurrentDirectory(workDir);
             var deletedFolder = new HashSet<string>();
 
             var configEntry = zipArchive.GetEntry(s_savedataConfigFileName);
             if (configEntry == null)
             {
-                _log.Error("configEntry is null");
+                _logger?.LogError("configEntry is null");
                 throw new Exception("configEntry is null");
             }
             using var configEntryStreamReader = new StreamReader(configEntry.Open(), s_UTF8WithoutBom);
             string configStr = configEntryStreamReader.ReadToEnd();
-            _log.Debug($"configStr = {configStr}");
-            _log.Debug("Starting config validation");
+            _logger?.LogDebug($"configStr = {configStr}");
+            _logger?.LogDebug("Starting config validation");
             var validation = Validate(configStr);
             if (validation == false)
             {
-                _log.Error("Savedata config validation failed");
+                _logger?.LogError("Savedata config validation failed");
                 throw new Exception("Savedata config validation failed");
             }
-            _log.Debug("Validation finished");
-            _log.Debug("Starting config deserialization");
+            _logger?.LogDebug("Validation finished");
+            _logger?.LogDebug("Starting config deserialization");
             var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
             if (config == null)
             {
-                _log.Error("config is null");
+                _logger?.LogError("config is null");
                 throw new Exception("config is null");
             }
-            _log.Debug("Config deserialization finished");
+            _logger?.LogDebug("Config deserialization finished");
 
-            _log.Debug("Checking fs and archive last write time");
+            _logger?.LogDebug("Checking fs and archive last write time");
             bool fsLastWriteTimeNewer = InnerCheckFSLastWriteTimeNewer(config, zipArchive);
             if (fsLastWriteTimeNewer == true)
             {
-                _log.Debug($"forceOverwrite = {forceOverwrite}");
+                _logger?.LogDebug($"forceOverwrite = {forceOverwrite}");
                 if (forceOverwrite == false)
                 {
-                    _log.Info("fs savedata is newer, not overwriting");
+                    _logger?.LogInformation("fs savedata is newer, not overwriting");
                     return false;
                 }
-                else _log.Warn("fs savedata is newer, overwriting");
+                else _logger?.LogWarning("fs savedata is newer, overwriting");
             }
 
-            _log.Debug("Extracting entries from zipArchive");
+            _logger?.LogDebug("Extracting entries from zipArchive");
             // extract entries from zipArchive
             if (config.Entries == null)
-                _log.Warn("config.Entries is null");
+                _logger?.LogWarning("config.Entries is null");
             else
                 foreach (var entry in config.Entries)
                 {
-                    _log.Debug($"{entry.ToString()}");
+                    _logger?.LogDebug($"{entry.ToString()}");
                     var extractPath = Path.GetDirectoryName(entry.GetRealPath());
                     if (extractPath == null)
                     {
-                        _log.Error("extractPath is null");
+                        _logger?.LogError("extractPath is null");
                         throw new Exception("extractPath is null");
                     }
-                    _log.Debug($"entry.GetRealPath() = {entry.GetRealPath()}");
-                    _log.Debug($"extractPath = {extractPath}");
+                    _logger?.LogDebug($"entry.GetRealPath() = {entry.GetRealPath()}");
+                    _logger?.LogDebug($"extractPath = {extractPath}");
                     var zipArchiveBaseDirName = entry.Id.ToString();
                     var zipArchiveEntriesFiltered = from zipArchiveEntry in zipArchive.Entries
                                                     let entryDirName = Path.GetDirectoryName(zipArchiveEntry.FullName)
@@ -92,7 +92,7 @@ namespace TuiHub.SavedataManagerLibrary
                     {
                         if (zipArchiveEntriesFiltered.Any() == false)
                         {
-                            _log.Warn($"Empty dir in entry: {entry.ToString()}");
+                            _logger?.LogWarning($"Empty dir in entry: {entry.ToString()}");
                         }
                         else
                         {
@@ -101,24 +101,24 @@ namespace TuiHub.SavedataManagerLibrary
                             //var folder = FolderHelper.GetRootFolder(e.FullName.Substring(zipArchiveBaseDirName.Length + 1));
                             //if (folder == null)
                             //{
-                            //    _log.Error("zipArchiveBaseDirName.GetRootFolder() is null");
+                            //    _logger?.LogError("zipArchiveBaseDirName.GetRootFolder() is null");
                             //    return false;
                             //}
                             var path = extractPath;
                             if (deletedFolder.Contains(path))
                             {
-                                _log.Debug($"Dir {path} have been deleted");
+                                _logger?.LogDebug($"Dir {path} have been deleted");
                             }
                             else
                             {
                                 deletedFolder.Add(path);
                                 if (Directory.Exists(path) == false)
                                 {
-                                    _log.Debug($"Dir {path} not exists");
+                                    _logger?.LogDebug($"Dir {path} not exists");
                                 }
                                 else
                                 {
-                                    _log.Warn($"Deleting dir: {path}");
+                                    _logger?.LogWarning($"Deleting dir: {path}");
                                     Directory.Delete(path, true);
                                     Directory.CreateDirectory(path);
                                 }
@@ -129,19 +129,19 @@ namespace TuiHub.SavedataManagerLibrary
                     foreach (var zipArchiveEntry in zipArchiveEntriesFiltered)
                     {
                         var name = zipArchiveEntry.FullName.Substring(zipArchiveBaseDirName.Length + 1);
-                        _log.Debug($"zipArchiveEntry.name = {name}");
+                        _logger?.LogDebug($"zipArchiveEntry.name = {name}");
                         string path = Path.Combine(extractPath, name);
-                        _log.Debug($"zipArchiveEntry.path = {path}");
+                        _logger?.LogDebug($"zipArchiveEntry.path = {path}");
                         var pathDirName = Path.GetDirectoryName(path);
-                        _log.Debug($"pathDirName = {pathDirName}");
+                        _logger?.LogDebug($"pathDirName = {pathDirName}");
                         if (pathDirName == null)
                         {
-                            _log.Error("pathDirName is null");
+                            _logger?.LogError("pathDirName is null");
                             throw new Exception("pathDirName is null");
                         }
                         if (Directory.Exists(pathDirName) == false)
                         {
-                            _log.Debug($"Creating dir: {pathDirName}");
+                            _logger?.LogDebug($"Creating dir: {pathDirName}");
                             Directory.CreateDirectory(pathDirName);
                         }
                         zipArchiveEntry.ExtractToFile(path, true);
@@ -150,10 +150,10 @@ namespace TuiHub.SavedataManagerLibrary
 
             // extract config
             var extractConfigPath = Path.Combine(Environment.CurrentDirectory, s_savedataConfigFileName);
-            _log.Debug($"extractConfigPath = {extractConfigPath}");
-            _log.Debug("Extracting SavedataConfigFile from zipArchive");
+            _logger?.LogDebug($"extractConfigPath = {extractConfigPath}");
+            _logger?.LogDebug("Extracting SavedataConfigFile from zipArchive");
             configEntry.ExtractToFile(extractConfigPath, true);
-            _log.Info("Restore complete");
+            _logger?.LogInformation("Restore complete");
             return true;
         }
     }

@@ -11,31 +11,32 @@ using TuiHub.SavedataManagerLibrary.Models;
 using TuiHub.SavedataManagerLibrary.Properties;
 using System.Text.Json.Nodes;
 using Json.Schema;
+using Microsoft.Extensions.Logging;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager
+    public partial class SavedataManager<T>
     {
         public bool Validate(string configStr)
         {
-            _log.Debug("Starting validation");
+            _logger?.LogDebug("Starting validation");
             var jsonSchemaStr = Resources.JsonSchemaStr;
-            _log.Debug($"jsonSchemaStr = {jsonSchemaStr}");
-            _log.Debug($"configStr = {configStr}");
+            _logger?.LogDebug($"jsonSchemaStr = {jsonSchemaStr}");
+            _logger?.LogDebug($"configStr = {configStr}");
             var jsonNode = JsonNode.Parse(configStr);
             var jsonSchema = JsonSchema.FromText(jsonSchemaStr, s_jsonSerializerOptions);
-            _log.Debug("Starting validation");
+            _logger?.LogDebug("Starting validation");
             var results = jsonSchema.Evaluate(jsonNode);
-            _log.Debug("Validation finished");
+            _logger?.LogDebug("Validation finished");
             var ret = true;
             if (results.IsValid == false)
             {
                 if (results.Errors != null)
                     foreach (var error in results.Errors)
-                        _log.Debug($"{error}");
+                        _logger?.LogDebug($"{error}");
                 ret = false;
             }
-            _log.Debug("Returning validation result");
+            _logger?.LogDebug("Returning validation result");
             return ret;
         }
     }
