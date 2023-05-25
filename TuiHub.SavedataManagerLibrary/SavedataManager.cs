@@ -7,7 +7,7 @@ using System.Text.Unicode;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager<T>
+    public partial class SavedataManager
     {
         private static readonly Encoding s_UTF8WithoutBom = new UTF8Encoding(false);
         private static readonly string s_savedataConfigFileName = "tuihub_savedata_config.json";
@@ -23,8 +23,8 @@ namespace TuiHub.SavedataManagerLibrary
             // not converting to ASCII char
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         };
-        private readonly ILogger<T>? _logger;
-        public SavedataManager(ILogger<T>? logger)
+        private readonly ILogger? _logger;
+        public SavedataManager(ILogger? logger)
         {
             _logger = logger;
         }

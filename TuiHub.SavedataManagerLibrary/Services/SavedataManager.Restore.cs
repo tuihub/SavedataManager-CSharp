@@ -5,15 +5,13 @@ using TuiHub.SavedataManagerLibrary.Models;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager<T>
+    public partial class SavedataManager
     {
-        public bool Restore(string archivePath, string gameDirPath, bool forceOverwrite = false)
+        public bool Restore(Stream archiveStream, string gameDirPath, bool forceOverwrite = false)
         {
             _logger?.LogInformation("Starting restore");
 
-            string savedataArchivePath = archivePath;
-            _logger?.LogDebug($"savedataArchivePath = {savedataArchivePath}");
-            using var zipArchive = ZipFile.Open(savedataArchivePath, ZipArchiveMode.Read);
+            using var zipArchive = new ZipArchive(archiveStream, ZipArchiveMode.Read);
             string workDir = gameDirPath;
             _logger?.LogDebug($"workDir = {workDir}");
             _logger?.LogDebug($"Setting CurrentDirectory to {workDir}");

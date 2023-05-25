@@ -5,7 +5,7 @@ using TuiHub.SavedataManagerLibrary.Properties;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager<T>
+    public partial class SavedataManager
     {
         public bool Validate(string configStr)
         {

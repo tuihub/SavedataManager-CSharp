@@ -6,17 +6,15 @@ using TuiHub.SavedataManagerLibrary.Utils;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager<T>
+    public partial class SavedataManager
     {
-        public bool CheckFSLastWriteTimeNewer(string archivePath, string gameDirPath)
+        public bool CheckFSLastWriteTimeNewer(Stream archiveStream, string gameDirPath)
         {
             string workDir = gameDirPath;
             _logger?.LogDebug($"workDir = {workDir}");
             _logger?.LogDebug($"Setting CurrentDirectory to {workDir}");
             Directory.SetCurrentDirectory(workDir);
-            string savedataArchivePath = archivePath;
-            _logger?.LogDebug($"savedataArchivePath = {savedataArchivePath}");
-            using var zipArchive = ZipFile.Open(savedataArchivePath, ZipArchiveMode.Read);
+            using var zipArchive = new ZipArchive(archiveStream, ZipArchiveMode.Read);
             var configEntry = zipArchive.GetEntry(s_savedataConfigFileName);
             if (configEntry == null)
             {

@@ -6,7 +6,7 @@ using TuiHub.SavedataManagerLibrary.Utils;
 
 namespace TuiHub.SavedataManagerLibrary
 {
-    public partial class SavedataManager<T>
+    public partial class SavedataManager
     {
         public MemoryStream Store(string gameDirPath)
         {
