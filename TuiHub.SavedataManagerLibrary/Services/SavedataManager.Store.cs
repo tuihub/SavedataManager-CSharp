@@ -8,7 +8,7 @@ namespace TuiHub.SavedataManagerLibrary
 {
     public partial class SavedataManager
     {
-        public MemoryStream Store(string gameDirPath)
+        public void Store(string gameDirPath, Stream stream)
         {
             _logger?.LogInformation("Starting store");
             _logger?.LogDebug($"Setting CurrentDirectory to {gameDirPath}");
@@ -34,10 +34,8 @@ namespace TuiHub.SavedataManagerLibrary
             }
             _logger?.LogDebug("Config deserialization finished");
 
-            // create ZipArchive using MemoryStream
-            var memoryStream = new MemoryStream();
             // leaveOpen must be true
-            using ZipArchive zipArchive = new ZipArchive(memoryStream, ZipArchiveMode.Update, true);
+            using ZipArchive zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true);
 
             // add entries to zipArchive
             if (config.Entries == null)
@@ -57,7 +55,6 @@ namespace TuiHub.SavedataManagerLibrary
             // must dispose
             zipArchive.Dispose();
             _logger?.LogInformation("Returning memoryStream");
-            return memoryStream;
         }
     }
 }
