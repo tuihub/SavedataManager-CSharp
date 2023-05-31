@@ -11,6 +11,9 @@ namespace TuiHub.SavedataManagerLibrary
         {
             _logger?.LogInformation("Starting restore");
 
+            string originWorkDir = Directory.GetCurrentDirectory();
+            _logger?.LogDebug($"originWorkDir = {originWorkDir}");
+
             using var zipArchive = new ZipArchive(archiveStream, ZipArchiveMode.Read);
             string workDir = gameDirPath;
             _logger?.LogDebug($"workDir = {workDir}");
@@ -145,6 +148,10 @@ namespace TuiHub.SavedataManagerLibrary
             _logger?.LogDebug("Extracting SavedataConfigFile from zipArchive");
             configEntry.ExtractToFile(extractConfigPath, true);
             _logger?.LogInformation("Restore complete");
+
+            _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
+            Directory.SetCurrentDirectory(originWorkDir);
+
             return true;
         }
     }

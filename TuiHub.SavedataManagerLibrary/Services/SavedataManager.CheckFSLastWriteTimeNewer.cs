@@ -10,6 +10,9 @@ namespace TuiHub.SavedataManagerLibrary
     {
         public bool CheckFSLastWriteTimeNewer(Stream archiveStream, string gameDirPath)
         {
+            string originWorkDir = Directory.GetCurrentDirectory();
+            _logger?.LogDebug($"originWorkDir = {originWorkDir}");
+
             string workDir = gameDirPath;
             _logger?.LogDebug($"workDir = {workDir}");
             _logger?.LogDebug($"Setting CurrentDirectory to {workDir}");
@@ -40,6 +43,9 @@ namespace TuiHub.SavedataManagerLibrary
                 throw new Exception("config is null");
             }
             _logger?.LogDebug("Config deserialization finished");
+
+            _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
+            Directory.SetCurrentDirectory(originWorkDir);
 
             return InnerCheckFSLastWriteTimeNewer(config, zipArchive);
         }

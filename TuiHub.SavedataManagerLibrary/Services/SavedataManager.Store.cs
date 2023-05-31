@@ -11,6 +11,10 @@ namespace TuiHub.SavedataManagerLibrary
         public void Store(string gameDirPath, Stream stream)
         {
             _logger?.LogInformation("Starting store");
+
+            string originWorkDir = Directory.GetCurrentDirectory();
+            _logger?.LogDebug($"originWorkDir = {originWorkDir}");
+
             _logger?.LogDebug($"Setting CurrentDirectory to {gameDirPath}");
             Directory.SetCurrentDirectory(gameDirPath);
             string configPath = Path.Combine(Environment.CurrentDirectory, s_savedataConfigFileName);
@@ -54,6 +58,10 @@ namespace TuiHub.SavedataManagerLibrary
 
             // must dispose
             zipArchive.Dispose();
+
+            _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
+            Directory.SetCurrentDirectory(originWorkDir);
+
             _logger?.LogInformation("Returning memoryStream");
         }
     }
