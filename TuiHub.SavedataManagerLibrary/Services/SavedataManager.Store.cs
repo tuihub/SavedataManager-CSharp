@@ -15,54 +15,65 @@ namespace TuiHub.SavedataManagerLibrary
             string originWorkDir = Directory.GetCurrentDirectory();
             _logger?.LogDebug($"originWorkDir = {originWorkDir}");
 
-            _logger?.LogDebug($"Setting CurrentDirectory to {gameDirPath}");
-            Directory.SetCurrentDirectory(gameDirPath);
-            string configPath = Path.Combine(Environment.CurrentDirectory, s_savedataConfigFileName);
-            _logger?.LogDebug($"configPath = {configPath}");
-            string configStr = File.ReadAllText(configPath, s_UTF8WithoutBom);
-            _logger?.LogDebug($"configStr = {configStr}");
-            _logger?.LogDebug("Starting config validation");
-            var validation = Validate(configStr);
-            if (validation == false)
+            try
             {
-                _logger?.LogError("Savedata config validation failed");
-                throw new Exception("Savedata config validation failed");
-            }
-            _logger?.LogDebug("Validation finished");
-            _logger?.LogDebug("Starting config deserialization");
-            var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
-            if (config == null)
-            {
-                _logger?.LogError("config is null");
-                throw new Exception("config is null");
-            }
-            _logger?.LogDebug("Config deserialization finished");
-
-            // leaveOpen must be true
-            using ZipArchive zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true);
-
-            // add entries to zipArchive
-            if (config.Entries == null)
-                _logger?.LogWarning("config.Entries is null");
-            else
-                foreach (Entry entry in config.Entries)
+                _logger?.LogDebug($"Setting CurrentDirectory to {gameDirPath}");
+                Directory.SetCurrentDirectory(gameDirPath);
+                string configPath = Path.Combine(Environment.CurrentDirectory, s_savedataConfigFileName);
+                _logger?.LogDebug($"configPath = {configPath}");
+                string configStr = File.ReadAllText(configPath, s_UTF8WithoutBom);
+                _logger?.LogDebug($"configStr = {configStr}");
+                _logger?.LogDebug("Starting config validation");
+                var validation = Validate(configStr);
+                if (validation == false)
                 {
-                    _logger?.LogDebug($"AddEntriesToZipArchive entry = {entry.ToString()}");
-                    _logger?.LogDebug($"AddEntriesToZipArchive entry.GetRealPath() = {entry.GetRealPath()}");
-                    zipArchive.CreateEntryFromAny(entry.GetRealPath(), entry.Id.ToString());
+                    _logger?.LogError("Savedata config validation failed");
+                    throw new Exception("Savedata config validation failed");
                 }
+                _logger?.LogDebug("Validation finished");
+                _logger?.LogDebug("Starting config deserialization");
+                var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
+                if (config == null)
+                {
+                    _logger?.LogError("config is null");
+                    throw new Exception("config is null");
+                }
+                _logger?.LogDebug("Config deserialization finished");
 
-            // add config.json
-            _logger?.LogDebug("Adding SaveDataConfigFile to zipArchive");
-            zipArchive.CreateEntryFromAny(configPath);
+                // leaveOpen must be true
+                using ZipArchive zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true);
 
-            // must dispose
-            zipArchive.Dispose();
+                // add entries to zipArchive
+                if (config.Entries == null)
+                    _logger?.LogWarning("config.Entries is null");
+                else
+                    foreach (Entry entry in config.Entries)
+                    {
+                        _logger?.LogDebug($"AddEntriesToZipArchive entry = {entry.ToString()}");
+                        _logger?.LogDebug($"AddEntriesToZipArchive entry.GetRealPath() = {entry.GetRealPath()}");
+                        zipArchive.CreateEntryFromAny(entry.GetRealPath(), entry.Id.ToString());
+                    }
 
-            _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
-            Directory.SetCurrentDirectory(originWorkDir);
+                // add config.json
+                _logger?.LogDebug("Adding SaveDataConfigFile to zipArchive");
+                zipArchive.CreateEntryFromAny(configPath);
 
-            _logger?.LogInformation("Returning memoryStream");
+                // must dispose
+                zipArchive.Dispose();
+
+                _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
+                Directory.SetCurrentDirectory(originWorkDir);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // ensure restore working directory
+                _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
+                Directory.SetCurrentDirectory(originWorkDir);
+            }
         }
     }
 }
