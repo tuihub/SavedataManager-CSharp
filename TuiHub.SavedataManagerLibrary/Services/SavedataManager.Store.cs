@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.IO.Compression;
 using System.Text.Json;
-using TuiHub.SavedataManagerLibrary.Models;
+using TuiHub.SavedataManagerLibrary.Models.V1;
 using TuiHub.SavedataManagerLibrary.Utils;
 
 namespace TuiHub.SavedataManagerLibrary
@@ -32,37 +32,11 @@ namespace TuiHub.SavedataManagerLibrary
                 }
                 _logger?.LogDebug("Validation finished");
                 _logger?.LogDebug("Starting config deserialization");
-                var config = JsonSerializer.Deserialize<Config>(configStr, s_jsonSerializerOptions);
-                if (config == null)
-                {
-                    _logger?.LogError("config is null");
-                    throw new Exception("config is null");
-                }
+                var config = configStr.GetConfigObj(s_jsonSerializerOptions);
                 _logger?.LogDebug("Config deserialization finished");
 
-                // leaveOpen must be true
-                using ZipArchive zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true);
-
-                // add entries to zipArchive
-                if (config.Entries == null)
-                    _logger?.LogWarning("config.Entries is null");
-                else
-                    foreach (Entry entry in config.Entries)
-                    {
-                        _logger?.LogDebug($"AddEntriesToZipArchive entry = {entry.ToString()}");
-                        _logger?.LogDebug($"AddEntriesToZipArchive entry.GetRealPath() = {entry.GetRealPath()}");
-                        zipArchive.CreateEntryFromAny(entry.GetRealPath(), entry.Id.ToString());
-                    }
-
-                // add config.json
-                _logger?.LogDebug("Adding SaveDataConfigFile to zipArchive");
-                zipArchive.CreateEntryFromAny(configPath);
-
-                // must dispose
-                zipArchive.Dispose();
-
-                _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
-                Directory.SetCurrentDirectory(originWorkDir);
+                var service = configStr.GetIService(s_savedataConfigFileName, _logger);
+                service.Store(config, stream, configPath);
             }
             catch
             {

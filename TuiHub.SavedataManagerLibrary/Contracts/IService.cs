@@ -11,5 +11,6 @@ namespace TuiHub.SavedataManagerLibrary.Contracts
     {
         public bool CheckFSLastWriteTimeNewer(object configObj, ZipArchive zipArchive);
         public bool Restore(object configObj, ZipArchive zipArchive, bool forceOverwrite = false);
+        public void Store(object configObj, Stream stream, string configPath);
     }
 }
