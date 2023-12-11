@@ -5,20 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TuiHub.SavedataManagerLibrary.Contracts;
 
 namespace TuiHub.SavedataManagerLibrary.Services.V1
 {
-    public partial class Service
+    public partial class Service : IService
     {
         private readonly ILogger? _logger;
         private readonly string s_savedataConfigFileName;
-        private readonly JsonSerializerOptions s_jsonSerializerOptions;
 
-        public Service(ILogger? logger, string savedataConfigFileName, JsonSerializerOptions jsonSerializerOptions)
+        public Service(ILogger? logger, string savedataConfigFileName)
         {
             _logger = logger;
             s_savedataConfigFileName = savedataConfigFileName;
-            s_jsonSerializerOptions = jsonSerializerOptions;
         }
     }
 }
