@@ -38,33 +38,13 @@ namespace TuiHub.SavedataManagerLibrary
                 }
                 _logger?.LogDebug("Validation finished");
                 _logger?.LogDebug("Starting config deserialization");
-                var jsonSchemaId = configStr.GetConfigSchemaId();
-                object? config = jsonSchemaId switch
-                {
-                    "https://github.com/tuihub/protos/schemas/savedata/v1" =>
-                        JsonSerializer.Deserialize<Models.V1.Config>(configStr, s_jsonSerializerOptions),
-                    "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" =>
-                        null,
-                    _ => throw new Exception($"{jsonSchemaId} not supported")
-                };
-                if (config == null)
-                {
-                    _logger?.LogError("config is null");
-                    throw new Exception("config is null");
-                }
+                var config = configStr.GetConfigObj(s_jsonSerializerOptions);
                 _logger?.LogDebug("Config deserialization finished");
 
                 _logger?.LogDebug($"Restoring CurrentDirectory to {originWorkDir}");
                 Directory.SetCurrentDirectory(originWorkDir);
 
-                IService service = jsonSchemaId switch
-                {
-                    "https://github.com/tuihub/protos/schemas/savedata/v1" =>
-                         new Services.V1.Service(_logger, s_savedataConfigFileName),
-                    "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" =>
-                        null,
-                    _ => throw new Exception($"{jsonSchemaId} not supported")
-                };
+                var service = configStr.GetIService(s_savedataConfigFileName, _logger);
                 return service.CheckFSLastWriteTimeNewer(config, zipArchive);
             }
             catch
