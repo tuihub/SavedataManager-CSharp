@@ -79,9 +79,34 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         ///                        &quot;id&quot;: {
         ///                        [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string JsonSchemaStr {
+        internal static string JsonSchemaV1Str {
             get {
-                return ResourceManager.GetString("JsonSchemaStr", resourceCulture);
+                return ResourceManager.GetString("JsonSchemaV1Str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {
+        ///    &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
+        ///    &quot;$id&quot;: &quot;https://github.com/tuihub/protos/schemas/savedata/v2.1.json&quot;,
+        ///    &quot;title&quot;: &quot;TuiHub Savedata Config V2.1&quot;,
+        ///    &quot;description&quot;: &quot;Json schema v2.1 for TuiHub savedata config.&quot;,
+        ///    &quot;type&quot;: &quot;object&quot;,
+        ///    &quot;properties&quot;: {
+        ///        &quot;platform&quot;: {
+        ///            &quot;type&quot;: &quot;string&quot;,
+        ///            &quot;enum&quot;: [
+        ///                &quot;windows&quot;
+        ///            ]
+        ///        },
+        ///        &quot;entries&quot;: {
+        ///            &quot;type&quot;: &quot;array&quot;,
+        ///            &quot;items&quot;: {
+        ///            [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string JsonSchemaV2_1Str {
+            get {
+                return ResourceManager.GetString("JsonSchemaV2_1Str", resourceCulture);
             }
         }
     }
