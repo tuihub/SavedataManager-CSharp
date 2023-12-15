@@ -11,7 +11,7 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1
 {
     public partial class Service
     {
-        public bool CheckFSLastWriteTimeNewer(object configObj, ZipArchive zipArchive)
+        public bool CheckFSLastWriteTimeNewer(object configObj, ZipArchive zipArchive, string gameDir)
         {
             throw new NotImplementedException();
         }

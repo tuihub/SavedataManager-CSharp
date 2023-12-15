@@ -12,7 +12,7 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1
 {
     public partial class Service
     {
-        public void Store(object configObj, Stream stream, string configPath)
+        public void Store(object configObj, Stream stream, string configPath, string gameDir)
         {
             throw new NotImplementedException();
         }

@@ -10,7 +10,7 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1
 {
     public partial class Service
     {
-        public bool Restore(object configObj, ZipArchive zipArchive, bool forceOverwrite = false)
+        public bool Restore(object configObj, ZipArchive zipArchive, string gameDir, bool forceOverwrite = false)
         {
             throw new NotImplementedException();
         }
