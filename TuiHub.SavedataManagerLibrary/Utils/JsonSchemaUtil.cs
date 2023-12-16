@@ -45,9 +45,9 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             IService service = jsonSchemaId switch
             {
                 "https://github.com/tuihub/protos/schemas/savedata/v1" =>
-                     new Services.V1.Service(logger, savedataConfigFileName),
+                     new Services.V1.Service(savedataConfigFileName, logger),
                 "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" =>
-                    new Services.V2_1.Service(logger, savedataConfigFileName),
+                    new Services.V2_1.Service(savedataConfigFileName, logger),
                 _ => throw new Exception($"{jsonSchemaId} not supported")
             };
             return service;
