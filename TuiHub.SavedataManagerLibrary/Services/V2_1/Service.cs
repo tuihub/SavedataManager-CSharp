@@ -12,12 +12,12 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1
     public partial class Service : IService
     {
         private readonly ILogger? _logger;
-        private readonly string s_savedataConfigFileName;
+        private readonly string _savedataConfigFileName;
 
-        public Service(ILogger? logger, string savedataConfigFileName)
+        public Service(string savedataConfigFileName, ILogger? logger = null)
         {
+            _savedataConfigFileName = savedataConfigFileName;
             _logger = logger;
-            s_savedataConfigFileName = savedataConfigFileName;
         }
     }
 }

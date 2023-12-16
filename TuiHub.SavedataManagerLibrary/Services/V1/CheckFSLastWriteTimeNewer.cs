@@ -24,7 +24,7 @@ namespace TuiHub.SavedataManagerLibrary.Services.V1
                 _logger?.LogDebug($"Setting CurrentDirectory to {gameDir}");
                 Directory.SetCurrentDirectory(gameDir);
                 // compare LastWriteTime
-                var zipArchiveEntriesMaxLastWriteTime = zipArchive.GetEntriesMaxLastWriteTime(s_savedataConfigFileName);
+                var zipArchiveEntriesMaxLastWriteTime = zipArchive.GetEntriesMaxLastWriteTime(_savedataConfigFileName);
                 _logger?.LogDebug($"zipArchiveEntriesMaxLastWriteTime = {zipArchiveEntriesMaxLastWriteTime}");
                 DateTime? fsMaxLastWriteTime = null;
 
