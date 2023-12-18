@@ -5,6 +5,13 @@ namespace TuiHub.SavedataManagerLibrary.Utils
     // from https://stackoverflow.com/questions/15133626/creating-directories-in-a-ziparchive-c-sharp-net-4-5
     public static class ZipArchiveHelper
     {
+        /// <summary>
+        /// </summary>
+        /// <param name="archive"></param>
+        /// <param name="sourceName"></param>
+        /// <param name="entryName">
+        /// entry dir name in zipArchive
+        /// </param>
         public static void CreateEntryFromAny(this ZipArchive archive, string sourceName, string entryName = "")
         {
             var fileName = Path.GetFileName(sourceName);
