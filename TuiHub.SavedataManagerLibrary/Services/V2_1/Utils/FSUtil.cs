@@ -20,8 +20,15 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1.Utils
                     MatchCasing = config.IsCaseSensitve ? MatchCasing.CaseSensitive : MatchCasing.CaseInsensitive
                 }));
             foreach (var filePattern in entry.FilePatterns!.Where(e => e.Type == FilePatternType.Exclude))
-                files.RemoveAll(e => Regex.IsMatch(e, $"^{filePattern.Pattern}$",
-                    config.IsCaseSensitve ? RegexOptions.None : RegexOptions.IgnoreCase));
+            {
+                var excludedFiles = Directory.EnumerateFiles(entryBaseDir, filePattern.Pattern, new EnumerationOptions
+                {
+                    RecurseSubdirectories = true,
+                    MatchCasing = config.IsCaseSensitve ? MatchCasing.CaseSensitive : MatchCasing.CaseInsensitive
+                });
+                foreach (var file in excludedFiles)
+                    files.Remove(file);
+            }
             return files;
         }
     }
