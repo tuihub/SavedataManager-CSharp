@@ -17,14 +17,14 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1.Utils
                 files.AddRange(Directory.EnumerateFiles(entryBaseDir, filePattern.Pattern, new EnumerationOptions
                 {
                     RecurseSubdirectories = true,
-                    MatchCasing = config.IsCaseSensitve ? MatchCasing.CaseSensitive : MatchCasing.CaseInsensitive
+                    MatchCasing = config.CaseSensitive ? MatchCasing.CaseSensitive : MatchCasing.CaseInsensitive
                 }));
             foreach (var filePattern in entry.FilePatterns!.Where(e => e.Type == FilePatternType.Exclude))
             {
                 var excludedFiles = Directory.EnumerateFiles(entryBaseDir, filePattern.Pattern, new EnumerationOptions
                 {
                     RecurseSubdirectories = true,
-                    MatchCasing = config.IsCaseSensitve ? MatchCasing.CaseSensitive : MatchCasing.CaseInsensitive
+                    MatchCasing = config.CaseSensitive ? MatchCasing.CaseSensitive : MatchCasing.CaseInsensitive
                 });
                 foreach (var file in excludedFiles)
                     files.Remove(file);

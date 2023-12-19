@@ -4,7 +4,7 @@
     {
         public Platform Platform { get; set; }
         public List<Entry>? Entries { get; set; }
-        public bool IsCaseSensitve
+        public bool CaseSensitive
         {
             get
             {
