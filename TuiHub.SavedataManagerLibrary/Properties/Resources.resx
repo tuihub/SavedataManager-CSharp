@@ -166,6 +166,9 @@
                 "windows"
             ]
         },
+        "caseSensitive": {
+            "type": "boolean"
+        },
         "entries": {
             "type": "array",
             "items": {
@@ -228,6 +231,7 @@
     },
     "required": [
         "platform",
+        "caseSensitive",
         "entries"
     ]
 }</value>

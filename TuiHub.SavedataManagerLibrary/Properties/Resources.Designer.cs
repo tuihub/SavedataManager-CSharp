@@ -99,10 +99,10 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         ///                &quot;windows&quot;
         ///            ]
         ///        },
-        ///        &quot;entries&quot;: {
-        ///            &quot;type&quot;: &quot;array&quot;,
-        ///            &quot;items&quot;: {
-        ///            [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///        &quot;caseSensitive&quot;: {
+        ///            &quot;type&quot;: &quot;boolean&quot;
+        ///        },
+        ///        &quot;entries [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string JsonSchemaV2_1Str {
             get {

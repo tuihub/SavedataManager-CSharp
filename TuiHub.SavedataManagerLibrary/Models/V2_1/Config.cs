@@ -4,17 +4,7 @@
     {
         public Platform Platform { get; set; }
         public List<Entry>? Entries { get; set; }
-        public bool CaseSensitive
-        {
-            get
-            {
-                return Platform switch
-                {
-                    Platform.Windows => false,
-                    _ => throw new ArgumentException("Invalid Platform")
-                };
-            }
-        }
+        public bool CaseSensitive { get; set; }
     }
     public enum Platform
     {
