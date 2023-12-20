@@ -28,7 +28,7 @@ namespace TuiHub.SavedataManagerLibrary
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         };
         private readonly ILogger? _logger;
-        public SavedataManager(ILogger? logger)
+        public SavedataManager(ILogger? logger = null)
         {
             _logger = logger;
         }
