@@ -1,11 +1,14 @@
+using Microsoft.Extensions.Logging;
 using SavedataManagerGui.Utils;
 using System.Windows.Forms;
+using TuiHub.SavedataManagerLibrary;
 
 namespace SavedataManagerGui
 {
     public partial class MainForm : Form
     {
-        private readonly TuiHub.SavedataManagerLibrary.SavedataManager _manager = new();
+        private static readonly ILoggerFactory s_iLoggerFactory = LoggerFactory.Create(builder => builder.AddDebug());
+        private readonly SavedataManager _manager = new(s_iLoggerFactory.CreateLogger(typeof(SavedataManager)));
 
         private OpenFileDialog _openZipFileDialog;
         private SaveFileDialog _saveZipFileDialog;
