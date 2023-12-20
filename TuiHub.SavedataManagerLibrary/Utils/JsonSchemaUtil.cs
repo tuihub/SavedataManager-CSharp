@@ -23,15 +23,15 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             return schemaId;
         }
 
-        public static object GetConfigObj(this string configStr, JsonSerializerOptions? jsonSerializerOptions = null)
+        public static object GetConfigObj(this string configStr)
         {
             var jsonSchemaId = configStr.GetConfigSchemaId();
             object? config = jsonSchemaId switch
             {
                 "https://tuihub.github.io/protos/schemas/savedata/v1.json" =>
-                    JsonSerializer.Deserialize<Models.V1.Config>(configStr, jsonSerializerOptions),
+                    JsonSerializer.Deserialize<Models.V1.Config>(configStr, Models.V1.Config.JsonSerializerOptions),
                 "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" =>
-                    JsonSerializer.Deserialize<Models.V2_1.Config>(configStr, jsonSerializerOptions),
+                    JsonSerializer.Deserialize<Models.V2_1.Config>(configStr, Models.V2_1.Config.JsonSerializerOptions),
                 _ => throw new Exception($"{jsonSchemaId} not supported")
             };
             if (config == null)
