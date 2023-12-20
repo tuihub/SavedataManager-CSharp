@@ -12,7 +12,7 @@ namespace TuiHub.SavedataManagerLibrary
         {
             _logger?.LogInformation("Starting restore");
 
-            using var zipArchive = new ZipArchive(archiveStream, ZipArchiveMode.Read);
+            using var zipArchive = new ZipArchive(archiveStream, ZipArchiveMode.Read, true);
             var configEntry = zipArchive.GetEntry(s_savedataConfigFileName);
             if (configEntry == null)
             {

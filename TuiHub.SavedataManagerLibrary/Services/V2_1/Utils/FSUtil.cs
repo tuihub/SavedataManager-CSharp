@@ -12,6 +12,8 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1.Utils
     {
         public static List<string> GetFSFilesFromEntry(Config config, Entry entry, string entryBaseDir)
         {
+            if (!Directory.Exists(entryBaseDir))
+                return new List<string>(0);
             var files = new List<string>();
             foreach (var filePattern in entry.FilePatterns!.Where(e => e.Type == FilePatternType.Include))
                 files.AddRange(Directory.EnumerateFiles(entryBaseDir, filePattern.Pattern, new EnumerationOptions

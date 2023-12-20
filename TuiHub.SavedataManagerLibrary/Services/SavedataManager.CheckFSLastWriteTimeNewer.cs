@@ -10,7 +10,7 @@ namespace TuiHub.SavedataManagerLibrary
     {
         public bool CheckFSLastWriteTimeNewer(Stream archiveStream, string gameDir)
         {
-            using var zipArchive = new ZipArchive(archiveStream, ZipArchiveMode.Read);
+            using var zipArchive = new ZipArchive(archiveStream, ZipArchiveMode.Read, true);
             var configEntry = zipArchive.GetEntry(s_savedataConfigFileName);
             if (configEntry == null)
             {
