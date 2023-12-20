@@ -1,10 +1,27 @@
-﻿namespace TuiHub.SavedataManagerLibrary.Models.V2_1
+﻿using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text.Unicode;
+
+namespace TuiHub.SavedataManagerLibrary.Models.V2_1
 {
     public class Config
     {
         public Platform Platform { get; set; }
         public List<Entry>? Entries { get; set; }
         public bool CaseSensitive { get; set; }
+        public static readonly JsonSerializerOptions JsonSerializerOptions = new()
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower)
+            },
+            // not converting to ASCII char
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+        };
     }
     public enum Platform
     {

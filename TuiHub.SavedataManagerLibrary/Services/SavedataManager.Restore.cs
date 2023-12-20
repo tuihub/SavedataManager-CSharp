@@ -31,7 +31,7 @@ namespace TuiHub.SavedataManagerLibrary
             }
             _logger?.LogDebug("Validation finished");
             _logger?.LogDebug("Starting config deserialization");
-            var config = configStr.GetConfigObj(s_jsonSerializerOptions);
+            var config = configStr.GetConfigObj();
             _logger?.LogDebug("Config deserialization finished");
 
             var service = configStr.GetIService(s_savedataConfigFileName, _logger);

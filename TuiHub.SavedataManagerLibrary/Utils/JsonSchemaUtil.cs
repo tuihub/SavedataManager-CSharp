@@ -17,7 +17,7 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             var jsonNode = JsonSerializer.Deserialize<JsonNode>(configStr);
             if (jsonNode == null)
                 throw new Exception("Json schema deserialization to JsonNode failed");
-            var schemaId = jsonNode["$id"]?.ToString();
+            var schemaId = jsonNode["jsonSchemaId"]?.ToString();
             if (schemaId == null)
                 throw new Exception("Not a vaild SavedataConfig");
             return schemaId;

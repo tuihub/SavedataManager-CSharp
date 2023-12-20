@@ -1,5 +1,6 @@
 ﻿using Json.Schema;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using TuiHub.SavedataManagerLibrary.Properties;
 using TuiHub.SavedataManagerLibrary.Utils;
@@ -18,10 +19,16 @@ namespace TuiHub.SavedataManagerLibrary
                 "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" => Resources.JsonSchemaV2_1Str,
                 _ => throw new Exception($"{jsonSchemaId} not supported"),
             };
+            var jsonSerializerOptions = jsonSchemaId switch
+            {
+                "https://github.com/tuihub/protos/schemas/savedata/v1" => Models.V1.Config.JsonSerializerOptions,
+                "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" => Models.V2_1.Config.JsonSerializerOptions,
+                _ => throw new Exception($"{jsonSchemaId} not supported"),
+            };
             _logger?.LogDebug($"jsonSchemaStr = {jsonSchemaStr}");
             _logger?.LogDebug($"configStr = {configStr}");
             var jsonNode = JsonNode.Parse(configStr);
-            var jsonSchema = JsonSchema.FromText(jsonSchemaStr, s_jsonSerializerOptions);
+            var jsonSchema = JsonSchema.FromText(jsonSchemaStr, jsonSerializerOptions);
             _logger?.LogDebug("Starting validation");
             var results = jsonSchema.Evaluate(jsonNode);
             _logger?.LogDebug("Validation finished");
