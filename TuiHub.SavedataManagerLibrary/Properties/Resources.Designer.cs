@@ -62,7 +62,7 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         
         /// <summary>
         ///   查找类似 {
-        ///    &quot;$id&quot;: &quot;https://tuihub.github.io/protos/schemas/savedata/v1.json&quot;,
+        ///    &quot;$id&quot;: &quot;https://github.com/tuihub/protos/schemas/savedata/v1&quot;,
         ///    &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
         ///    &quot;title&quot;: &quot;Save File Configs&quot;,
         ///    &quot;properties&quot;: {
@@ -77,7 +77,7 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         ///                    &quot;type&quot;: &quot;object&quot;,
         ///                    &quot;properties&quot;: {
         ///                        &quot;id&quot;: {
-        ///                    [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///                        [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string JsonSchemaV1Str {
             get {
@@ -88,7 +88,7 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         /// <summary>
         ///   查找类似 {
         ///    &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
-        ///    &quot;$id&quot;: &quot;https://tuihub.github.io/protos/schemas/savedata/v2.1.json&quot;,
+        ///    &quot;$id&quot;: &quot;https://github.com/tuihub/protos/schemas/savedata/v2.1&quot;,
         ///    &quot;title&quot;: &quot;TuiHub Savedata Config V2.1&quot;,
         ///    &quot;description&quot;: &quot;Json schema v2.1 for TuiHub savedata config.&quot;,
         ///    &quot;type&quot;: &quot;object&quot;,
@@ -102,7 +102,7 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         ///        &quot;caseSensitive&quot;: {
         ///            &quot;type&quot;: &quot;boolean&quot;
         ///        },
-        ///        &quot;entries&quot; [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///        &quot;entries&quot;: {        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string JsonSchemaV2_1Str {
             get {

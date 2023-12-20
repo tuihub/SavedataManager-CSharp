@@ -2,13 +2,12 @@
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text.Unicode;
+using TuiHub.SavedataManagerLibrary.Properties;
 
 namespace TuiHub.SavedataManagerLibrary.Models.V1
 {
     public class Config
     {
-        public Platform Platform { get; set; }
-        public List<Entry>? Entries { get; set; }
         public static readonly JsonSerializerOptions JsonSerializerOptions = new()
         {
             WriteIndented = true,
@@ -21,6 +20,12 @@ namespace TuiHub.SavedataManagerLibrary.Models.V1
             // not converting to ASCII char
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         };
+        public Platform Platform { get; set; }
+        public List<Entry>? Entries { get; set; }
+        public string JsonSchemaStr
+        {
+            get => Resources.JsonSchemaV1Str;
+        }
     }
     public enum Platform
     {

@@ -2,14 +2,12 @@
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text.Unicode;
+using TuiHub.SavedataManagerLibrary.Properties;
 
 namespace TuiHub.SavedataManagerLibrary.Models.V2_1
 {
     public class Config
     {
-        public Platform Platform { get; set; }
-        public List<Entry>? Entries { get; set; }
-        public bool CaseSensitive { get; set; }
         public static readonly JsonSerializerOptions JsonSerializerOptions = new()
         {
             WriteIndented = true,
@@ -17,11 +15,18 @@ namespace TuiHub.SavedataManagerLibrary.Models.V2_1
             DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
             Converters =
             {
-                new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower)
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
             },
             // not converting to ASCII char
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         };
+        public Platform Platform { get; set; }
+        public List<Entry>? Entries { get; set; }
+        public bool CaseSensitive { get; set; }
+        public string JsonSchemaStr
+        {
+            get => Resources.JsonSchemaV2_1Str;
+        }
     }
     public enum Platform
     {
