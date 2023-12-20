@@ -28,9 +28,9 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             var jsonSchemaId = configStr.GetConfigSchemaId();
             object? config = jsonSchemaId switch
             {
-                "https://github.com/tuihub/protos/schemas/savedata/v1" =>
+                "https://tuihub.github.io/protos/schemas/savedata/v1.json" =>
                     JsonSerializer.Deserialize<Models.V1.Config>(configStr, jsonSerializerOptions),
-                "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" =>
+                "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" =>
                     JsonSerializer.Deserialize<Models.V2_1.Config>(configStr, jsonSerializerOptions),
                 _ => throw new Exception($"{jsonSchemaId} not supported")
             };
@@ -44,9 +44,9 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             var jsonSchemaId = configStr.GetConfigSchemaId();
             IService service = jsonSchemaId switch
             {
-                "https://github.com/tuihub/protos/schemas/savedata/v1" =>
+                "https://tuihub.github.io/protos/schemas/savedata/v1.json" =>
                      new Services.V1.Service(savedataConfigFileName, logger),
-                "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" =>
+                "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" =>
                     new Services.V2_1.Service(savedataConfigFileName, logger),
                 _ => throw new Exception($"{jsonSchemaId} not supported")
             };

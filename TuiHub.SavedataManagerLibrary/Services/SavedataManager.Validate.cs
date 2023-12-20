@@ -15,14 +15,14 @@ namespace TuiHub.SavedataManagerLibrary
             var jsonSchemaId = configStr.GetConfigSchemaId();
             var jsonSchemaStr = jsonSchemaId switch
             {
-                "https://github.com/tuihub/protos/schemas/savedata/v1" => Resources.JsonSchemaV1Str,
-                "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" => Resources.JsonSchemaV2_1Str,
+                "https://tuihub.github.io/protos/schemas/savedata/v1.json" => Resources.JsonSchemaV1Str,
+                "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" => Resources.JsonSchemaV2_1Str,
                 _ => throw new Exception($"{jsonSchemaId} not supported"),
             };
             var jsonSerializerOptions = jsonSchemaId switch
             {
-                "https://github.com/tuihub/protos/schemas/savedata/v1" => Models.V1.Config.JsonSerializerOptions,
-                "https://github.com/tuihub/protos/schemas/savedata/v2.1.json" => Models.V2_1.Config.JsonSerializerOptions,
+                "https://tuihub.github.io/protos/schemas/savedata/v1.json" => Models.V1.Config.JsonSerializerOptions,
+                "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" => Models.V2_1.Config.JsonSerializerOptions,
                 _ => throw new Exception($"{jsonSchemaId} not supported"),
             };
             _logger?.LogDebug($"jsonSchemaStr = {jsonSchemaStr}");
