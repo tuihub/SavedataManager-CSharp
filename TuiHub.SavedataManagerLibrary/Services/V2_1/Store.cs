@@ -19,13 +19,15 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1
             Config config = (configObj as Config)!;
             using ZipArchive zipArchive = new(stream, ZipArchiveMode.Update, true);
 
+            _logger?.LogDebug($"Adding file = {configPath}");
+            zipArchive.CreateEntryFromAny(configPath);
             if (config.Entries == null || !config.Entries.Any())
                 _logger?.LogWarning("config.Entries is null or empty");
             else
                 foreach (var entry in config.Entries)
                 {
                     _logger?.LogDebug($"Processing entry = {entry.Id.ToString()}");
-                    var files = FSUtil.GetFSFilesFromEntry(config, entry, gameDir);
+                    var files = FSUtil.GetFSFilesFromEntry(config, entry, entry.GetRealBaseDir(gameDir));
                     foreach (var file in files)
                     {
                         _logger?.LogDebug($"Adding file = {file}");

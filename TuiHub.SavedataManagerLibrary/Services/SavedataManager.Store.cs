@@ -28,7 +28,7 @@ namespace TuiHub.SavedataManagerLibrary
             _logger?.LogDebug("Config deserialization finished");
 
             var service = configStr.GetIService(s_savedataConfigFileName, _logger);
-            service.Store(config, stream, gameDir, configPath);
+            service.Store(config, stream, configPath, gameDir);
         }
     }
 }

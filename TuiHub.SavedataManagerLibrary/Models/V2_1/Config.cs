@@ -35,11 +35,11 @@ namespace TuiHub.SavedataManagerLibrary.Models.V2_1
         public string BaseDir { get; set; } = string.Empty;
         public List<FilePattern>? FilePatterns { get; set; }
         public bool ClearBaseDirBeforeRestore { get; set; }
-        public string GetRealBaseDir(string gameDir)
+        public string GetRealBaseDir(string? gameDir = null)
         {
             return BaseDirMode switch
             {
-                BaseDirMode.GameRoot => Path.Combine(gameDir, BaseDir),
+                BaseDirMode.GameRoot => Path.Combine(gameDir ?? string.Empty, BaseDir),
                 BaseDirMode.UserDocument => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), BaseDir),
                 BaseDirMode.UserProfile => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), BaseDir),
                 BaseDirMode.Absolute => BaseDir,

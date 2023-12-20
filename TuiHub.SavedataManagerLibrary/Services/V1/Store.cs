@@ -13,7 +13,7 @@ namespace TuiHub.SavedataManagerLibrary.Services.V1
 {
     public partial class Service
     {
-        public void Store(object configObj, Stream stream, string gameDir, string configPath)
+        public void Store(object configObj, Stream stream, string configPath, string gameDir)
         {
             string originWorkDir = Directory.GetCurrentDirectory();
             _logger?.LogDebug($"originWorkDir = {originWorkDir}");
