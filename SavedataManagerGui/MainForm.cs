@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using SavedataManagerGui.Utils;
+using System.Diagnostics;
 using System.Windows.Forms;
 using TuiHub.SavedataManagerLibrary;
 
@@ -7,7 +8,12 @@ namespace SavedataManagerGui
 {
     public partial class MainForm : Form
     {
-        private static readonly ILoggerFactory s_iLoggerFactory = LoggerFactory.Create(builder => builder.AddDebug());
+        private static readonly ILoggerFactory s_iLoggerFactory = LoggerFactory.Create(static builder =>
+        {
+            builder.AddDebug();
+            if (Debugger.IsAttached == true)
+                builder.AddFilter(typeof(SavedataManager).FullName, LogLevel.Debug);
+        });
         private readonly SavedataManager _manager = new(s_iLoggerFactory.CreateLogger(typeof(SavedataManager)));
 
         private OpenFileDialog _openZipFileDialog;
