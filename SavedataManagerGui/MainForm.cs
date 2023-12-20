@@ -1,4 +1,3 @@
-using log4net;
 using SavedataManagerGui.Utils;
 using System.Windows.Forms;
 
@@ -6,7 +5,7 @@ namespace SavedataManagerGui
 {
     public partial class MainForm : Form
     {
-        private readonly TuiHub.SavedataManagerLibrary.SavedataManager _manager = new(LogManager.GetLogger(typeof(TuiHub.SavedataManagerLibrary.SavedataManager)));
+        private readonly TuiHub.SavedataManagerLibrary.SavedataManager _manager = new();
 
         private OpenFileDialog _openZipFileDialog;
         private SaveFileDialog _saveZipFileDialog;
@@ -46,6 +45,7 @@ namespace SavedataManagerGui
         private void storeButton_Click(object sender, EventArgs e)
         {
             var gameFolderPath = gameFolderPathTextBox.Text;
+            using var memoryStream = new MemoryStream();
             if (string.IsNullOrEmpty(gameFolderPath))
             {
                 MessageBox.Show("Must select game path first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -53,7 +53,7 @@ namespace SavedataManagerGui
             }
             try
             {
-                var memoryStream = _manager.Store(gameFolderPath);
+                _manager.Store(gameFolderPath, memoryStream);
                 if (string.IsNullOrEmpty(_saveZipFileDialog.FileName)) _saveZipFileDialog.FileName = "dummy.zip";
                 var dialogResult = _saveZipFileDialog.ShowDialog();
                 var filePath = _saveZipFileDialog.FileName;
@@ -66,6 +66,11 @@ namespace SavedataManagerGui
             catch (Exception ex)
             {
                 MessageBox.Show(ex != null ? ex.Message : "Unknown", "Store error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                memoryStream.Close();
+                memoryStream.Dispose();
             }
         }
 
@@ -85,7 +90,8 @@ namespace SavedataManagerGui
             }
             try
             {
-                if (_manager.CheckFSLastWriteTimeNewer(savedataFilePath, gameFolderPath) == true)
+                using var fs = File.OpenRead(savedataFilePath);
+                if (_manager.CheckFSLastWriteTimeNewer(fs, gameFolderPath) == true)
                 {
                     var dialogResult = MessageBox.Show("Current App savedata is newer than the one to restore, overwrite?",
                                                        "Overwrite", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
@@ -94,15 +100,9 @@ namespace SavedataManagerGui
                         return;
                     }
                 }
-                var result = _manager.Restore(savedataFilePath, gameFolderPath, true);
-                if (result == true)
-                {
-                    MessageBox.Show("Restore succeed", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Store failed", "Result", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                fs.Position = 0;
+                _manager.Restore(fs, gameFolderPath, true);
+                MessageBox.Show("Restore succeed", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

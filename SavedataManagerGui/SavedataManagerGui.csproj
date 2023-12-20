@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.15" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TuiHub.SavedataManagerLibrary\TuiHub.SavedataManagerLibrary.csproj" />
   </ItemGroup>
 
