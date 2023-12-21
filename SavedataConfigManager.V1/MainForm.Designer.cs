@@ -168,7 +168,6 @@
             entryDataGridView.Dock = DockStyle.Fill;
             entryDataGridView.Location = new Point(0, 50);
             entryDataGridView.Name = "entryDataGridView";
-            entryDataGridView.RowTemplate.Height = 25;
             entryDataGridView.Size = new Size(800, 400);
             entryDataGridView.TabIndex = 3;
             entryDataGridView.DragDrop += entryDataGridView_DragDrop;
@@ -213,7 +212,7 @@
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
-            Text = "SaveData Config Manager";
+            Text = "SaveData Config Manager V1";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             toolStrip1.ResumeLayout(false);

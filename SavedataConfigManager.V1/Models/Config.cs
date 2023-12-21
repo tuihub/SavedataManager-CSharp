@@ -10,7 +10,7 @@ namespace Models
     public class Config
     {
         [JsonPropertyName("$schema")]
-        public string Schema { get; set; } = "https://tuihub.github.io/Protos/schemas/savedata/v1.json";
+        public string Schema { get; set; } = "https://tuihub.github.io/protos/schemas/savedata/v1.json";
         public Platform Platform { get; set; }
         public List<Entry>? Entries { get; set; }
     }
