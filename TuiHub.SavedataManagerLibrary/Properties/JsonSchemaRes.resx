@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="JsonSchemaV1Str" xml:space="preserve">
+  <data name="V1Id" xml:space="preserve">
+    <value>https://tuihub.github.io/protos/schemas/savedata/v1.json</value>
+  </data>
+  <data name="V1Schema" xml:space="preserve">
     <value>{
     "$id": "https://github.com/tuihub/protos/schemas/savedata/v1",
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -152,7 +155,10 @@
     }
 }</value>
   </data>
-  <data name="JsonSchemaV2_1Str" xml:space="preserve">
+  <data name="V2_1Id" xml:space="preserve">
+    <value>https://tuihub.github.io/protos/schemas/savedata/v2.1.json</value>
+  </data>
+  <data name="V2_1Schema" xml:space="preserve">
     <value>{
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://github.com/tuihub/protos/schemas/savedata/v2.1",

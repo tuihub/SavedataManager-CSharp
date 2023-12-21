@@ -13,6 +13,9 @@ namespace TuiHub.SavedataManagerLibrary.Utils
 {
     public static class JsonSchemaUtil
     {
+        private const string JsonSchemaIdV1 = "https://tuihub.github.io/protos/schemas/savedata/v1.json";
+        private const string JsonSchemaIdV2_1 = "https://tuihub.github.io/protos/schemas/savedata/v2.1.json";
+
         private static string GetConfigSchemaId(this string configStr)
         {
             var jsonNode = JsonSerializer.Deserialize<JsonNode>(configStr);
@@ -29,9 +32,9 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             var jsonSchemaId = configStr.GetConfigSchemaId();
             object? config = jsonSchemaId switch
             {
-                "https://tuihub.github.io/protos/schemas/savedata/v1.json" =>
+                JsonSchemaIdV1 =>
                     JsonSerializer.Deserialize<Models.V1.Config>(configStr, Models.V1.Config.JsonSerializerOptions),
-                "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" =>
+                JsonSchemaIdV2_1 =>
                     JsonSerializer.Deserialize<Models.V2_1.Config>(configStr, Models.V2_1.Config.JsonSerializerOptions),
                 _ => throw new Exception($"{jsonSchemaId} not supported")
             };
@@ -45,14 +48,14 @@ namespace TuiHub.SavedataManagerLibrary.Utils
             var jsonSchemaId = configStr.GetConfigSchemaId();
             var jsonSchemaStr = jsonSchemaId switch
             {
-                "https://tuihub.github.io/protos/schemas/savedata/v1.json" => Models.V1.Config.JsonSchemaStr,
-                "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" => Models.V2_1.Config.JsonSchemaStr,
+                JsonSchemaIdV1 => Models.V1.Config.JsonSchemaStr,
+                JsonSchemaIdV2_1 => Models.V2_1.Config.JsonSchemaStr,
                 _ => throw new Exception($"jsonSchemaId {jsonSchemaId} not supported"),
             };
             var jsonSerializerOptions = jsonSchemaId switch
             {
-                "https://tuihub.github.io/protos/schemas/savedata/v1.json" => Models.V1.Config.JsonSerializerOptions,
-                "https://tuihub.github.io/protos/schemas/savedata/v2.1.json" => Models.V2_1.Config.JsonSerializerOptions,
+                JsonSchemaIdV1 => Models.V1.Config.JsonSerializerOptions,
+                JsonSchemaIdV2_1 => Models.V2_1.Config.JsonSerializerOptions,
                 _ => throw new Exception($"jsonSchemaId {jsonSchemaId} not supported"),
             };
             var jsonSchema = JsonSchema.FromText(jsonSchemaStr, jsonSerializerOptions);

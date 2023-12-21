@@ -20,7 +20,7 @@ namespace TuiHub.SavedataManagerLibrary.Models.V2_1
             // not converting to ASCII char
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         }; }
-        public static string JsonSchemaStr {  get => Resources.JsonSchemaV2_1Str; }
+        public static string JsonSchemaStr {  get => JsonSchemaRes.V2_1Schema; }
         public Platform Platform { get; set; }
         public List<Entry>? Entries { get; set; }
         public bool CaseSensitive { get; set; }

@@ -22,14 +22,14 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class JsonSchemaRes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal JsonSchemaRes() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TuiHub.SavedataManagerLibrary.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TuiHub.SavedataManagerLibrary.Properties.JsonSchemaRes", typeof(JsonSchemaRes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,15 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 https://tuihub.github.io/protos/schemas/savedata/v1.json 的本地化字符串。
+        /// </summary>
+        internal static string V1Id {
+            get {
+                return ResourceManager.GetString("V1Id", resourceCulture);
             }
         }
         
@@ -79,9 +88,18 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         ///                        &quot;id&quot;: {
         ///                        [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string JsonSchemaV1Str {
+        internal static string V1Schema {
             get {
-                return ResourceManager.GetString("JsonSchemaV1Str", resourceCulture);
+                return ResourceManager.GetString("V1Schema", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 https://tuihub.github.io/protos/schemas/savedata/v2.1.json 的本地化字符串。
+        /// </summary>
+        internal static string V2_1Id {
+            get {
+                return ResourceManager.GetString("V2_1Id", resourceCulture);
             }
         }
         
@@ -104,9 +122,9 @@ namespace TuiHub.SavedataManagerLibrary.Properties {
         ///        },
         ///        &quot;entries&quot;: {        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
-        internal static string JsonSchemaV2_1Str {
+        internal static string V2_1Schema {
             get {
-                return ResourceManager.GetString("JsonSchemaV2_1Str", resourceCulture);
+                return ResourceManager.GetString("V2_1Schema", resourceCulture);
             }
         }
     }
