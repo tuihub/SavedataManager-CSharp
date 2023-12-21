@@ -27,11 +27,12 @@ namespace TuiHub.SavedataManagerLibrary.Services.V2_1
                 foreach (var entry in config.Entries)
                 {
                     _logger?.LogDebug($"Processing entry = {entry.Id.ToString()}");
-                    var files = FSUtil.GetFSFilesFromEntry(config, entry, entry.GetRealBaseDir(gameDir));
+                    var entryBaseDir = entry.GetRealBaseDir(gameDir);
+                    var files = FSUtil.GetFSFilesFromEntry(config, entry, entryBaseDir);
                     foreach (var file in files)
                     {
                         _logger?.LogDebug($"Adding file = {file}");
-                        zipArchive.CreateEntryFromAny(file, entry.Id.ToString());
+                        zipArchive.CreateEntryFromFile(file, Path.Combine(entry.Id.ToString(), Path.GetRelativePath(entryBaseDir, file)));
                     }
                 }
 
