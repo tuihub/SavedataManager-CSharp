@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavedataManagerGui", "Saved
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavedataConfigManager.V1", "SavedataConfigManager.V1\SavedataConfigManager.V1.csproj", "{BE60E68E-E5C9-458D-88A9-25220A61FC96}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavedataConfigManager.V2_1", "SavedataConfigManager.V2_1\SavedataConfigManager.V2_1.csproj", "{978EC985-D393-4A44-A741-58C4CC677221}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{BE60E68E-E5C9-458D-88A9-25220A61FC96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE60E68E-E5C9-458D-88A9-25220A61FC96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE60E68E-E5C9-458D-88A9-25220A61FC96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{978EC985-D393-4A44-A741-58C4CC677221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978EC985-D393-4A44-A741-58C4CC677221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978EC985-D393-4A44-A741-58C4CC677221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978EC985-D393-4A44-A741-58C4CC677221}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
