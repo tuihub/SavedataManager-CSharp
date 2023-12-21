@@ -80,6 +80,8 @@ namespace SavedataManagerGui
             {
                 memoryStream.Close();
                 memoryStream.Dispose();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
 
