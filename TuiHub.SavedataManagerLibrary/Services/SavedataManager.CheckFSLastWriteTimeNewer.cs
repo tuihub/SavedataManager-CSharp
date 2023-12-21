@@ -32,7 +32,7 @@ namespace TuiHub.SavedataManagerLibrary
             var config = configStr.GetConfigObj();
             _logger?.LogDebug("Config deserialization finished");
 
-            var service = configStr.GetIService(s_savedataConfigFileName, _logger);
+            var service = config.GetIService(s_savedataConfigFileName, _logger);
             return service.CheckFSLastWriteTimeNewer(config, zipArchive, gameDir);
         }
     }

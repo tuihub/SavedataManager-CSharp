@@ -34,7 +34,7 @@ namespace TuiHub.SavedataManagerLibrary
             var config = configStr.GetConfigObj();
             _logger?.LogDebug("Config deserialization finished");
 
-            var service = configStr.GetIService(s_savedataConfigFileName, _logger);
+            var service = config.GetIService(s_savedataConfigFileName, _logger);
             var restoreResult = service.Restore(config, zipArchive, gameDir, forceOverwrite);
             if (restoreResult == true)
             {

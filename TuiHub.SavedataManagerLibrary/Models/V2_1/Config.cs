@@ -8,7 +8,7 @@ namespace TuiHub.SavedataManagerLibrary.Models.V2_1
 {
     public class Config
     {
-        public static readonly JsonSerializerOptions JsonSerializerOptions = new()
+        public static JsonSerializerOptions JsonSerializerOptions { get => new()
         {
             WriteIndented = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -19,14 +19,11 @@ namespace TuiHub.SavedataManagerLibrary.Models.V2_1
             },
             // not converting to ASCII char
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
-        };
+        }; }
+        public static string JsonSchemaStr {  get => Resources.JsonSchemaV2_1Str; }
         public Platform Platform { get; set; }
         public List<Entry>? Entries { get; set; }
         public bool CaseSensitive { get; set; }
-        public string JsonSchemaStr
-        {
-            get => Resources.JsonSchemaV2_1Str;
-        }
     }
     public enum Platform
     {
