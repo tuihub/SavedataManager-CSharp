@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavedataManager", "SavedataManager\SavedataManager.csproj", "{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0E927840-4624-4C44-8874-E7EDC2830A8D} = {0E927840-4624-4C44-8874-E7EDC2830A8D}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TuiHub.SavedataManagerLibrary", "TuiHub.SavedataManagerLibrary\TuiHub.SavedataManagerLibrary.csproj", "{0E927840-4624-4C44-8874-E7EDC2830A8D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavedataConfigManager", "SavedataConfigManager\SavedataConfigManager.csproj", "{EA3C26CA-12C4-4E81-915C-604C9877145F}"
@@ -23,10 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E85ED3DE-6FD9-49C7-B855-71B7F7C735E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E927840-4624-4C44-8874-E7EDC2830A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E927840-4624-4C44-8874-E7EDC2830A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E927840-4624-4C44-8874-E7EDC2830A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
